@@ -1,7 +1,7 @@
 #PCA Analysis
 library(tidyverse)
-pca <- read_table2("RISG_f.eigenvec", col_names = FALSE)
-eigenval <- scan("RISG_f.eigenval")
+pca <- read_table2("RISG.eigenvec", col_names = FALSE)
+eigenval <- scan("RISG.eigenval")
 
 # set names
 names(pca)[1] <- "Population"
@@ -18,3 +18,7 @@ b <- ggplot(pca, aes(PC1, PC2, col = Population)) + geom_point(size = 3)
 b <- b + coord_equal() + theme_light()
 b + xlab(paste0("PC1 (", signif(pve$pve[1], 3), "%)")) + ylab(paste0("PC2 (", signif(pve$pve[2], 3), "%)"))
 plot(b)
+c <- ggplot(pca, aes(PC1, PC3, col = Population)) + geom_point(size = 3)
+c <- b + coord_equal() + theme_light()
+c + xlab(paste0("PC1 (", signif(pve$pve[1], 3), "%)")) + ylab(paste0("PC3 (", signif(pve$pve[2], 3), "%)"))
+plot(c)
