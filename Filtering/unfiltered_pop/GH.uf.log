@@ -1,0 +1,33 @@
+PLINK v1.90b6.25 64-bit (5 Mar 2022)
+Options in effect:
+  --chr-set 94
+  --file RISG_passQC
+  --keep-fam GH.samples
+  --out GH.uf
+  --recode
+
+Hostname: DESKTOP-9O3IIFV
+Working directory: /home/angellcarrasquillo/ALC_Masters_Thesis/Filtering
+Start time: Tue Nov 14 09:40:59 2023
+
+Random number seed: 1699972859
+8108 MB RAM detected; reserving 4054 MB for main workspace.
+Scanning .ped file...
+Possibly irregular .ped line.  Restarting scan, assuming multichar alleles.
+.ped scan complete (for binary autoconversion).
+Performing single-pass .bed write (65893 variants, 126 samples).
+--file: GH.uf-temporary.bed + GH.uf-temporary.bim + GH.uf-temporary.fam
+written.
+65893 variants loaded from .bim file.
+126 samples (0 males, 0 females, 126 ambiguous) loaded from .fam.
+Ambiguous sex IDs written to GH.uf.nosex .
+--keep-fam: 30 samples remaining.
+Using 1 thread (no multithreaded calculations invoked).
+Before main variant filters, 30 founders and 0 nonfounders present.
+Calculating allele frequencies... done.
+Total genotyping rate in remaining samples is 0.985807.
+65893 variants and 30 samples pass filters and QC.
+Note: No phenotypes present.
+--recode ped to GH.uf.ped + GH.uf.map ... done.
+
+End time: Tue Nov 14 09:40:59 2023

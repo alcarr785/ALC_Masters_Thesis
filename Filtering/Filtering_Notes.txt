@@ -16,4 +16,4 @@ plink --file RISG_uf --allow-extra-chr --chr-set 94 --remove FailedQC.remove --m
 --hwe: Removed 2389 SNPs
 --maf: Removed 7578 SNPs 
 
-#RISG_f.ped has 52156 variants and 120 samples
+
