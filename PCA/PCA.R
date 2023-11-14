@@ -1,7 +1,7 @@
 #PCA Analysis
 library(tidyverse)
-pca <- read_table2("RISG.eigenvec", col_names = FALSE)
-eigenval <- scan("RISG.eigenval")
+pca <- read_table2("RISG.wild.eigenvec", col_names = FALSE)
+eigenval <- scan("RISG.wild.eigenval")
 
 # set names
 names(pca)[1] <- "Population"
@@ -16,10 +16,10 @@ a <- ggplot(pve, aes(PC, pve)) + geom_bar(stat = "identity")
 a + ylab("Percentage variance explained") + theme_light()
 
 b <- ggplot(pca, aes(PC1, PC2, col = Population)) + geom_point(size = 3)
-b <- b + coord_equal() + theme_light()
-b + xlab(paste0("PC1 (", signif(pve$pve[1], 3), "%)")) + ylab(paste0("PC2 (", signif(pve$pve[2], 3), "%)"))+ ggtitle("PC1 vs. PC2")
+b <- b + coord_equal() + theme_light() + scale_color_brewer(palette="Set1")
+b <- b + xlab(paste0("PC1 (", signif(pve$pve[1], 3), "%)")) + ylab(paste0("PC2 (", signif(pve$pve[2], 3), "%)"))+ ggtitle("PC1 vs. PC2 Wild Populations")
 plot(b)
 c <- ggplot(pca, aes(PC1, PC3, col = Population)) + geom_point(size = 3)
 c <- c + coord_equal() + theme_light()
-c + xlab(paste0("PC1 (", signif(pve$pve[1], 3), "%)")) + ylab(paste0("PC3 (", signif(pve$pve[2], 3), "%)"))+ ggtitle("PC1 vs. PC3")
+c <- c + xlab(paste0("PC1 (", signif(pve$pve[1], 3), "%)")) + ylab(paste0("PC3 (", signif(pve$pve[2], 3), "%)"))+ ggtitle("PC1 vs. PC3")
 plot(c)
