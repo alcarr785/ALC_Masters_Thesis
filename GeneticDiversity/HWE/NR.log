@@ -1,0 +1,29 @@
+PLINK v1.90b6.25 64-bit (5 Mar 2022)
+Options in effect:
+  --allow-extra-chr
+  --chr-set 94
+  --file ../../Filtering/filtered_pop/NR.f
+  --hardy
+  --out NR
+
+Hostname: DESKTOP-9O3IIFV
+Working directory: /home/angellcarrasquillo/ALC_Masters_Thesis/GeneticDiversity/HWE
+Start time: Wed Nov 15 11:23:54 2023
+
+Random number seed: 1700065434
+8108 MB RAM detected; reserving 4054 MB for main workspace.
+Scanning .ped file...
+Possibly irregular .ped line.  Restarting scan, assuming multichar alleles.
+.ped scan complete (for binary autoconversion).
+Performing single-pass .bed write (53237 variants, 10 samples).
+--file: NR-temporary.bed + NR-temporary.bim + NR-temporary.fam written.
+53237 variants loaded from .bim file.
+10 samples (0 males, 0 females, 10 ambiguous) loaded from .fam.
+Ambiguous sex IDs written to NR.nosex .
+Using 1 thread (no multithreaded calculations invoked).
+Before main variant filters, 10 founders and 0 nonfounders present.
+Calculating allele frequencies... done.
+Total genotyping rate is 0.988097.
+--hardy: Writing Hardy-Weinberg report (founders only) to NR.hwe ... done.
+
+End time: Wed Nov 15 11:23:54 2023

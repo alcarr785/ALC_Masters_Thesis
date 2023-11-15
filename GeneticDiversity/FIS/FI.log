@@ -1,0 +1,31 @@
+PLINK v1.90b6.25 64-bit (5 Mar 2022)
+Options in effect:
+  --allow-extra-chr
+  --chr-set 94
+  --file ../Filtering/filtered_pop/FI.f
+  --het
+  --out FI
+
+Hostname: DESKTOP-9O3IIFV
+Working directory: /home/angellcarrasquillo/ALC_Masters_Thesis/GeneticDiversity
+Start time: Tue Nov 14 14:39:59 2023
+
+Random number seed: 1699990799
+8108 MB RAM detected; reserving 4054 MB for main workspace.
+Scanning .ped file...
+Possibly irregular .ped line.  Restarting scan, assuming multichar alleles.
+.ped scan complete (for binary autoconversion).
+Performing single-pass .bed write (42736 variants, 13 samples).
+--file: FI-temporary.bed + FI-temporary.bim + FI-temporary.fam written.
+42736 variants loaded from .bim file.
+13 samples (0 males, 0 females, 13 ambiguous) loaded from .fam.
+Ambiguous sex IDs written to FI.nosex .
+Using 1 thread (no multithreaded calculations invoked).
+Before main variant filters, 13 founders and 0 nonfounders present.
+Calculating allele frequencies... done.
+Total genotyping rate is 0.99084.
+42736 variants and 13 samples pass filters and QC.
+Note: No phenotypes present.
+--het: 42736 variants scanned, report written to FI.het .
+
+End time: Tue Nov 14 14:40:00 2023

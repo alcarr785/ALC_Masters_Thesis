@@ -1,0 +1,17 @@
+PLINK v1.90b6.25 64-bit (5 Mar 2022)
+Options in effect:
+  --allow-extra-chr
+  --chr-set 94
+  --file ../Filtering/RISG.all
+  --fst
+  --out FST
+  --wc
+
+Hostname: DESKTOP-9O3IIFV
+Working directory: /home/angellcarrasquillo/ALC_Masters_Thesis/GeneticDiversity
+Start time: Tue Nov 14 14:23:59 2023
+
+Error: Unrecognized flag ('--wc').
+For more information, try "plink --help <flag name>" or "plink --help | more".
+
+End time: Tue Nov 14 14:23:59 2023
