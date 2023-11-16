@@ -1,0 +1,16 @@
+library(adegenet)
+library(hierfstat)
+library(pegas)
+library(genetics)
+#Genetix file created with PGDSpider
+RISG <- read.genetix('RISG.gtx')
+#Getting pairwise Fst values
+RISG_fst <- pairwise.WCfst(RISG)
+RISG_fst <- as.data.frame(RISG_fst)
+write.csv(RISG_fst, "FST.csv")
+richness <- allelic.richness(RISG)
+RISG_richness <- as.data.frame(richness$Ar)
+write.csv(RISG_richness, "Allelic_richness.csv")
+RISG_fst_boot <- boot.ppfst(RISG)
+RISG_hwe <- hw.test(RISG)
+RISG_Fstats <- wc(RISG)
