@@ -1,7 +1,0 @@
-Population	%Loci out of HWE
-NEH	.0803
-FI	.0724
-CT	.0930
-GH	.0980
-NR	.0397
-MV	.0801
