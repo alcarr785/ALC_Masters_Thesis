@@ -1,0 +1,19 @@
+library(adegenet)
+library(hierfstat)
+library(pegas)
+#Genetix file created with PGDSpider
+RISG <- read.genetix('RISG.gtx')
+#Getting pairwise Fst values
+RISG_fst <- pairwise.WCfst(RISG)
+RISG_fst <- as.data.frame(RISG_fst)
+write.csv(RISG_fst, "FST.csv")
+RISG_fstboot <- boot.ppfst(RISG)
+RISG_fst_ll <- as.data.frame(RISG_fstboot$ll)
+RISG_fst_ul <- as.data.frame(RISG_fstboot$ul)
+write.csv(RISG_fst_ll, "RISG_fst_ll.csv")
+write.csv(RISG_fst_ul, "RISG_fst_ul.csv")
+
+#Changing values in Fis and Fit
+RISG_Fis <- RISG_FIS %>%
+  mutate(FID = recode(FID, FI="CL1", NEH="CL2")) %>%
+  mutate(Type = ifelse(FID == "CL1" | FID == "CL2", "Commercial", "Wild"))
