@@ -1,0 +1,16 @@
+PLINK v1.90b6.25 64-bit (5 Mar 2022)
+Options in effect:
+  --chr-set 94
+  --file RISG
+  --max-alleles 2
+  --min-alleles 2
+  --out RISG2
+
+Hostname: DESKTOP-9O3IIFV
+Working directory: /home/angellcarrasquillo/ALC_Masters_Thesis/Filtering
+Start time: Wed Jan 17 10:47:45 2024
+
+Error: Unrecognized flag ('--max-alleles').
+For more information, try "plink --help <flag name>" or "plink --help | more".
+
+End time: Wed Jan 17 10:47:45 2024
