@@ -1,34 +1,35 @@
 PLINK v1.90b6.25 64-bit (5 Mar 2022)
 Options in effect:
+  --allow-extra-chr
   --chr-set 94
   --file CT.f
-  --merge-list Filelist.all
+  --merge-list ../Filtering/Filelist.all
   --out RISG.all
   --recode
 
 Hostname: DESKTOP-9O3IIFV
-Working directory: /home/angellcarrasquillo/ALC_Masters_Thesis/Filtering
-Start time: Tue Nov 14 10:33:55 2023
+Working directory: /home/angellcarrasquillo/ALC_Masters_Thesis/Filtering_Tracked
+Start time: Tue Jan 23 10:22:33 2024
 
-Random number seed: 1699976035
+Random number seed: 1706023353
 8108 MB RAM detected; reserving 4054 MB for main workspace.
 Scanning .ped file...
 Possibly irregular .ped line.  Restarting scan, assuming multichar alleles.
 .ped scan complete (for binary autoconversion).
-Performing single-pass .bed write (51392 variants, 28 samples).
+Performing single-pass .bed write (48501 variants, 28 samples).
 --file: RISG.all-temporary.bed + RISG.all-temporary.bim +
 RISG.all-temporary.fam written.
-Performing single-pass merge (120 samples, 64547 variants).
+Performing single-pass merge (120 samples, 63912 variants).
 Merged fileset written to RISG.all.bed + RISG.all.bim + RISG.all.fam .
-64547 variants loaded from .bim file.
+63912 variants loaded from .bim file.
 120 samples (0 males, 0 females, 120 ambiguous) loaded from .fam.
 Ambiguous sex IDs written to RISG.all.nosex .
 Using 1 thread (no multithreaded calculations invoked).
 Before main variant filters, 120 founders and 0 nonfounders present.
 Calculating allele frequencies... done.
-Total genotyping rate is 0.786398.
-64547 variants and 120 samples pass filters and QC.
+Total genotyping rate is 0.729442.
+63912 variants and 120 samples pass filters and QC.
 Note: No phenotypes present.
 --recode ped to RISG.all.ped + RISG.all.map ... done.
 
-End time: Tue Nov 14 10:33:55 2023
+End time: Tue Jan 23 10:22:34 2024

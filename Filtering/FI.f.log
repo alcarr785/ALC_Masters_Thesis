@@ -1,0 +1,41 @@
+PLINK v1.90b6.25 64-bit (5 Mar 2022)
+Options in effect:
+  --allow-extra-chr
+  --chr 1-10
+  --chr-set 94
+  --file FI.uf
+  --geno 0.05
+  --hwe 1e-6
+  --maf 0.05
+  --mind 0.05
+  --out FI.f
+  --recode
+
+Hostname: DESKTOP-9O3IIFV
+Working directory: /home/angellcarrasquillo/ALC_Masters_Thesis/Filtering_Tracked
+Start time: Tue Jan 23 10:40:55 2024
+
+Random number seed: 1706024455
+8108 MB RAM detected; reserving 4054 MB for main workspace.
+Scanning .ped file...
+Possibly irregular .ped line.  Restarting scan, assuming multichar alleles.
+.ped scan complete (for binary autoconversion).
+Performing single-pass .bed write (65862 variants, 13 samples).
+--file: FI.f-temporary.bed + FI.f-temporary.bim + FI.f-temporary.fam written.
+65862 variants loaded from .bim file.
+13 samples (0 males, 0 females, 13 ambiguous) loaded from .fam.
+Ambiguous sex IDs written to FI.f.nosex .
+0 samples removed due to missing genotype data (--mind).
+Using 1 thread (no multithreaded calculations invoked).
+Before main variant filters, 13 founders and 0 nonfounders present.
+Calculating allele frequencies... done.
+Total genotyping rate is 0.984277.
+9560 variants removed due to missing genotype data (--geno).
+--hwe: 0 variants removed due to Hardy-Weinberg exact test.
+18656 variants removed due to minor allele threshold(s)
+(--maf/--max-maf/--mac/--max-mac).
+37646 variants and 13 samples pass filters and QC.
+Note: No phenotypes present.
+--recode ped to FI.f.ped + FI.f.map ... done.
+
+End time: Tue Jan 23 10:40:55 2024
