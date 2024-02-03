@@ -1,0 +1,124 @@
+# Heterozygosity and Fis
+
+The following code was used to analyze genetic diversity and inbreeding using the vcf file generated from the Filtering protocol. The steps used to calculate heterozygosity and Fis follow a [workflow developed by Jon Puritz](https://marineevoecolab.github.io/NACE_MAS_Genomics_Workshop/)\
+\## Importing Data
+
+VCF was used to read in data from the filtered VCF file
+
+```{r}
+library(vcfR)
+RISG <- read.vcfR("../Filtering/RISG.vcf")
+```
+
+We need a sample table for further analysis and to get a list of populations
+
+```{r}
+library(tidyverse)
+Samples <- read.table("Samples.txt", header = TRUE) %>% 
+  mutate(Population = recode(Population, FI = 'CL1', NEH = 'CL2'))
+poplist.names <- Samples$Population
+```
+
+## Calculating and Plotting Heterozygosity
+
+To calculate heterozygosity we used the genetic_diff tool from vcfR
+
+```{r}
+het_results <- genetic_diff(RISG, pop=as.factor(poplist.names), method= 'nei')
+round(colMeans(het_results[,c(3:8)], na.rm = TRUE), digits = 3)
+```
+
+To plot Heterozygosity we need to change the dataframe into one that can be plotted using ggplot
+
+```{r}
+library(reshape2)
+het_df <- melt(het_results[,c(3:8)], varnames=c('Index', 'Sample'), value.name = 'Heterozygosity', na.rm=TRUE) %>%
+  mutate(variable = recode(variable, Hs_CL1 = 'CL1', Hs_CL2 = 'CL2', Hs_MV = "MV", Hs_NR = "NR", Hs_GH = "GH", Hs_CT = "CT")) %>%
+  mutate(Type = ifelse(variable == "CL1" | variable == "CL2", "Commercial", "Wild"))
+```
+
+Seeing if Heterozygosity is significant
+
+```{r}
+#First we test for normality using a Kolmogorov-Smirnov Test
+lapply(split(het_df$Heterozygosity, het_df$variable), ks.test, "pnorm")
+#The data is not normally distributed, we should proceed with a Kruskall test
+kruskal.test(het_df$Heterozygosity ~ het_df$variable)
+#The populations are significantly different, we should use a Dunn-Test post-hoc
+library(dunn.test)
+dunn.test(het_df$Heterozygosity, g = het_df$variable, method  = "bonferroni")
+```
+
+Plotting Heterozygosity with ggplot
+
+```{r}
+library(ggplot2)
+Het <- ggplot(het_df, aes(x=variable, y=Heterozygosity, fill = Type)) + geom_boxplot() +
+  xlab("Population")+
+  ylab("Observed Heterozygosity")+
+  ggtitle("Observed Heterozygosity") + ylim(0,1)
+plot(Het)
+```
+
+Plotting Heterozygosity with Histograms
+```{r}
+HetHist <- ggplot(aes(x=Heterozygosity, col=I("black"), fill=Type), data = het_df) +   geom_histogram(binwidth = 0.05) +
+          facet_wrap(~ variable)
+plot(HetHist)
+```
+
+## Calculating and Plotting Fis
+
+For Fis we need the packages adegenet and heirfstat and need to convert our vcf file into a genind file
+
+```{r}
+library(adegenet)
+library(hierfstat)
+RISG_genind <- vcfR2genind(RISG)
+strata(RISG_genind) <- Samples
+setPop(RISG_genind) <- ~Population
+```
+
+To get Fis we can use the basic.stats function from hierfstat
+
+```{r}
+basicstat <- basic.stats(RISG_genind, diploid = TRUE, digits = 3)
+round(colMeans(basicstat$Fis[,c(1:6)], na.rm = TRUE), digits = 3)
+```
+
+Like with Heterozygosity, we need to melt the graph so we can plot it with ggplot
+
+```{r}
+fis_df <- melt(basicstat$Fis, varnames=c('Index', 'Sample'), value.name = 'FIS', na.rm=TRUE) %>%
+  mutate(Sample = recode(Sample, FI = "CL1", NEH = "CL2")) %>%
+  mutate(Type = ifelse(Sample == "CL1" | Sample == "CL2", "Commercial", "Wild"))
+```
+
+Looking to see if any Fis values are statistically significant
+
+```{r}
+#First we test for normality using a Kolmogorov-Smirnov Test
+lapply(split(fis_df$FIS, fis_df$Sample), ks.test, "pnorm")
+#The data is not normally distributed, we should proceed with a Kruskall test
+kruskal.test(fis_df$FIS ~ fis_df$Sample)
+#The populations are significantly different, we should use a Dunn-Test post-hoc
+dunn.test(fis_df$FIS, g = fis_df$Sample, method  = "bonferroni")
+```
+
+Plotting Fis
+
+```{r}
+FIS <- ggplot(fis_df, aes(x=Sample, y=FIS, fill = Type)) + geom_boxplot()+
+  xlab("Population")+
+  ylab(bquote(F[IS]))+
+  ggtitle(bquote(F[IS]*" per Population")) + ylim(-1,1)
+plot(FIS)
+```
+
+Making Histogram for Fis
+```{r}
+FisHist <- ggplot(aes(x=FIS, col=I("black"), fill=Type), data = fis_df) +   geom_histogram() +
+          facet_wrap(~ Sample)
+plot(FisHist)
+```
+

@@ -1,0 +1,43 @@
+## PCA
+
+For exploratory analysis we will perform a principal component analysis (PCA) using plink. We can make a table of eigenvalues and eigenvectors for PCA using the --pca command in plink. 
+
+```{bash}
+plink --file ../Filtering/RISG.all.f --chr-set 94 --allow-extra-chr --pca --out RISG.all
+plink --file ../Filtering/RISG.wild.f --chr-set 94 --allow-extra-chr --pca --out RISG.wild
+```
+
+PCA data imported into R for plotting using both wild populations and all populations.
+
+```{r}
+library(tidyverse)
+pca <- read_table("RISG.all.eigenvec", col_names = FALSE)
+eigenval <- scan("RISG.all.eigenval")
+# set names
+names(pca)[1] <- "Population"
+names(pca)[2] <- "Indv"
+names(pca)[3:ncol(pca)] <- paste0("PC", 1:(ncol(pca)-1))
+pca <- pca %>% mutate(Population = recode(Population, FI = 'CL1', NEH = 'CL2')) %>%
+  mutate(Type = ifelse(Population == "CL1" | Population == "CL2", "Commercial", "Wild"))
+pve <- data.frame(PC = 1:20, pve = eigenval/sum(eigenval)*100)
+PCA_all <- ggplot(pca, aes(PC1, PC2, col = Population)) + 
+  geom_point(size = 3, aes(shape = Type))
+PCA_all <- PCA_all + coord_equal() + theme_light() + scale_color_brewer(palette="Set1")
+PCA_all <- PCA_all + xlab(paste0("PC1 (", signif(pve$pve[1], 3), "%)")) + ylab(paste0("PC2 (", signif(pve$pve[2], 3), "%)"))+ ggtitle("PC1 vs. PC2 All Populations")
+plot(PCA_all)
+```
+
+```{r}
+pca_wild <- read_table2("RISG.wild.eigenvec", col_names = FALSE)
+eigenval_wild <- scan("RISG.wild.eigenval")
+# set names
+names(pca_wild)[1] <- "Population"
+names(pca_wild)[2] <- "Indv"
+names(pca_wild)[3:ncol(pca_wild)] <- paste0("PC", 1:(ncol(pca_wild)-1))
+pve_wild <- data.frame(PC = 1:20, pve_wild = eigenval_wild/sum(eigenval_wild)*100)
+PCA_wild <- ggplot(pca_wild, aes(PC1, PC2, col = Population)) + 
+  geom_point(size = 3)
+PCA_wild <- PCA_wild + coord_equal() + theme_light() + scale_color_brewer(palette="Set1")
+PCA_wild <- PCA_wild + xlab(paste0("PC1 (", signif(pve_wild$pve_wild[1], 3), "%)")) + ylab(paste0("PC2 (", signif(pve_wild$pve_wild[2], 3), "%)"))+ ggtitle("PC1 vs. PC2 Wild Populations")
+plot(PCA_wild)
+```
