@@ -93,7 +93,7 @@ All_Surv <- rbind(WIC_Surv, NIN_Surv, RWU_Surv)
 Surv_2023 <- rbind(WIC_Surv, NIN_Surv)
 ```
 
-### Because we only have one replicate for survival for some populations we cannot do statistics on percent survival, instead we will use the survival curve to determine effects of Population and Site
+Because we only have one replicate for survival for some populations we cannot do statistics on percent survival, instead we will use the survival curve to determine effects of Population and Site
 
 ```{r}
 library(survival)
@@ -128,5 +128,50 @@ SurvPopxSite2023 <- survreg(Surv(Age, Status) ~ Population*Site, data = Surv_202
 p <- predict(SurvPopxSite2023, type = "response")
 with(Surv_2023, pam.censor(Age, p, Status))
 summary(SurvPopxSite2023)
+```
+
+## Disease Data
+
+```{r}
+library(tidyverse)
+#Reading in disease data
+Disease <- read.csv("Disease2022.csv") %>% mutate(Lineage = recode(Lineage, FI="CL1", NEH="CL2")) %>%
+  mutate(Type = ifelse(Lineage == "CL1" | Lineage == "CL2", "Commercial", "Wild")) %>%
+#Creating columns for disease prevalence
+  subset(Sample.ID != 'NR-209') %>%
+  group_by(Lineage, Type) %>%
+  mutate(Dermo_Infected = ifelse(Dermo.Intensity > 0, 1, 0)) %>%
+  mutate(MSX_Infected = ifelse(Dermo.Intensity > 0, 1, 0)) %>%
+  mutate(SSO_Infected = ifelse(SSO.Intensity > 0, 1, 0)) 
+```
+
+Statistical test on disease prevalence
+```{r}
+shapiro.test(Disease$Dermo.Intensity)
+kruskal.test(Disease$Dermo.Intensity ~ Disease$Lineage)
+dunn.test(Disease$Dermo.Intensity, g = Disease$Lineage, method  = "bonferroni")
+shapiro.test(Disease$MSX.Intensity)
+kruskal.test(Disease$MSX.Intensity ~ Disease$Lineage)
+dunn.test(Disease$MSX.Intensity, g = Disease$Lineage, method  = "bonferroni")
+```
+
+Statistical test for disease intensity
+```{r}
+shapiro.test(Disease$Dermo_Infected)
+kruskal.test(Disease$Dermo_Infected ~ Disease$Lineage)
+shapiro.test(Disease$MSX_Infected)
+kruskal.test(Disease$MSX_Infected ~ Disease$Lineage)
+```
+
+
+Plotting disease intensity for Dermo and MSX
+```{r}
+ggplot(Disease, aes(x= Lineage, y=Dermo.Intensity, fill = Type))+
+  geom_boxplot()+
+  ggtitle("Dermo Intensity at 19 Months")
+ggplot(Disease, aes(x= Lineage, y=MSX.Intensity, fill = Type))+
+  geom_boxplot()+
+  ylim(0,5)+
+  ggtitle("MSX Intensity at 19 Months")
 ```
 
