@@ -69,46 +69,48 @@ plot(HetHist)
 
 ## Calculating and Plotting Fis
 
-For Fis we need the packages adegenet and heirfstat and need to convert our vcf file into a genind file
-
-```{r}
-library(adegenet)
-library(hierfstat)
-RISG_genind <- vcfR2genind(RISG)
-strata(RISG_genind) <- Samples
-setPop(RISG_genind) <- ~Population
+The --het function from Plink can be used to calculate F coefficient per individual. To calculate Fis, we need to use --het at a population level, which requires he plink file to be divided into multiple plink files by population. This can be done using a for loop and the --keep-fam funcion.
+```{bash}
+for pop in {FI,MV,CT,NR,NEH,GH}; do plink --file ../../Filtering/RISG.all.f --chr-
+set 94 --allow-extra-chr --keep-fam ../../Filtering/$pop.samples --recode --out
+$pop.f; done
 ```
 
-To get Fis we can use the basic.stats function from hierfstat
-
-```{r}
-basicstat <- basic.stats(RISG_genind, diploid = TRUE, digits = 3)
-round(colMeans(basicstat$Fis[,c(1:6)], na.rm = TRUE), digits = 3)
+Next we do het for each population level plink file.
+```{bash}
+for pop in {FI,MV,CT,NR,NEH,GH}; do plink --file $pop.f --chr-set 94 --allow-extra-chr --het --out $pop; done
 ```
 
-Like with Heterozygosity, we need to melt the graph so we can plot it with ggplot
+Now we create a file that contains Fis for all individuals
+```{bash}
+head -1 CT.het > FIS.all
+for pop in {FI,MV,CT,NR,NEH,GH}; do tail -n+2 $pop.het >> FIS.all; done
+```
 
+We then load this table into R
 ```{r}
-fis_df <- melt(basicstat$Fis, varnames=c('Index', 'Sample'), value.name = 'FIS', na.rm=TRUE) %>%
-  mutate(Sample = recode(Sample, FI = "CL1", NEH = "CL2")) %>%
-  mutate(Type = ifelse(Sample == "CL1" | Sample == "CL2", "Commercial", "Wild"))
+library(tidyverse)
+fis_df <- read.csv("FIS.all") %>%
+  mutate(FID = recode(FID, FI = "CL1", NEH = "CL2")) %>%
+  mutate(Type = ifelse(FID == "CL1" | FID == "CL2", "Commercial", "Wild"))
 ```
 
 Looking to see if any Fis values are statistically significant
 
 ```{r}
+library(dunn.test)
 #First we test for normality using a Kolmogorov-Smirnov Test
-lapply(split(fis_df$FIS, fis_df$Sample), ks.test, "pnorm")
+lapply(split(fis_df$F, fis_df$FID), ks.test, "pnorm")
 #The data is not normally distributed, we should proceed with a Kruskall test
-kruskal.test(fis_df$FIS ~ fis_df$Sample)
+kruskal.test(fis_df$F ~ fis_df$FID)
 #The populations are significantly different, we should use a Dunn-Test post-hoc
-dunn.test(fis_df$FIS, g = fis_df$Sample, method  = "bonferroni")
+dunn.test(fis_df$F, g = fis_df$FID, method  = "bonferroni")
 ```
 
 Plotting Fis
 
 ```{r}
-FIS <- ggplot(fis_df, aes(x=Sample, y=FIS, fill = Type)) + geom_boxplot()+
+FIS <- ggplot(fis_df, aes(x=FID, y=F, fill = Type)) + geom_boxplot()+
   xlab("Population")+
   ylab(bquote(F[IS]))+
   ggtitle(bquote(F[IS]*" per Population")) + ylim(-1,1)
@@ -117,8 +119,10 @@ plot(FIS)
 
 Making Histogram for Fis
 ```{r}
-FisHist <- ggplot(aes(x=FIS, col=I("black"), fill=Type), data = fis_df) +   geom_histogram() +
-          facet_wrap(~ Sample)
+FisHist <- ggplot(aes(x=F, col=I("black"), fill=Type), data = fis_df) +   geom_histogram() +
+          facet_wrap(~ FID)
 plot(FisHist)
 ```
+
+
 
