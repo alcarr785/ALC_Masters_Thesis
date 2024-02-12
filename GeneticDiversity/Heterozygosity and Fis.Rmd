@@ -61,6 +61,7 @@ plot(Het)
 ```
 
 Plotting Heterozygosity with Histograms
+
 ```{r}
 HetHist <- ggplot(aes(x=Heterozygosity, col=I("black"), fill=Type), data = het_df) +   geom_histogram(binwidth = 0.05) +
           facet_wrap(~ variable)
@@ -70,6 +71,7 @@ plot(HetHist)
 ## Calculating and Plotting Fis
 
 The --het function from Plink can be used to calculate F coefficient per individual. To calculate Fis, we need to use --het at a population level, which requires he plink file to be divided into multiple plink files by population. This can be done using a for loop and the --keep-fam funcion.
+
 ```{bash}
 for pop in {FI,MV,CT,NR,NEH,GH}; do plink --file ../../Filtering/RISG.all.f --chr-
 set 94 --allow-extra-chr --keep-fam ../../Filtering/$pop.samples --recode --out
@@ -77,17 +79,20 @@ $pop.f; done
 ```
 
 Next we do het for each population level plink file.
+
 ```{bash}
 for pop in {FI,MV,CT,NR,NEH,GH}; do plink --file $pop.f --chr-set 94 --allow-extra-chr --het --out $pop; done
 ```
 
 Now we create a file that contains Fis for all individuals
+
 ```{bash}
 head -1 CT.het > FIS.all
 for pop in {FI,MV,CT,NR,NEH,GH}; do tail -n+2 $pop.het >> FIS.all; done
 ```
 
 We then load this table into R
+
 ```{r}
 library(tidyverse)
 fis_df <- read.csv("FIS.all") %>%
@@ -118,11 +123,9 @@ plot(FIS)
 ```
 
 Making Histogram for Fis
+
 ```{r}
 FisHist <- ggplot(aes(x=F, col=I("black"), fill=Type), data = fis_df) +   geom_histogram() +
           facet_wrap(~ FID)
 plot(FisHist)
 ```
-
-
-

@@ -53,6 +53,7 @@ RWU_Size <- read.csv("RWU.csv") %>%
 All_data <- rbind(NIN_Size, RWU_Size, WIC_Size) %>% rename(Population = Line)
 Data_2023 <- rbind(NIN_Size, WIC_Size) %>% rename(Population = Line)
 ```
+
 Determining if Population affects size
 ```{r}
 library(dunn.test)
@@ -67,6 +68,7 @@ shapiro.test(All_data$Length)
 kruskal.test(All_data$Length ~ All_data$Site)
 dunn.test(All_data$Length, g = All_data$Site, method  = "bonferroni")
 ```
+
 Using 2023 data to see if there is an effect of Population and Site for one year
 ```{r}
 PopandSite2023 <- lm(log(Length) ~ Site+Population, data = Data_2023)
@@ -75,13 +77,37 @@ summary(PopxSite2023)
 anova(PopandSite2023, PopxSite2023)
 ```
 
-
 Determining the Effects of Populaton and Site for 2022 and 2023
 ```{r}
 PopandSite <- lm(log(Length) ~ Site+Population, data = All_data)
 PopxSite <- lm(log(Length) ~ Site*Population, data = All_data)
 summary(PopxSite)
 anova(PopandSite, PopxSite)
+```
+
+Plotting Size for all sites and populations
+```{r}
+library(ggplot2)
+library(cowplot)
+RWU_plot <- ggplot(RWU_Size, aes(x=Line, y=Length, fill = Type))+
+  geom_boxplot()+
+  labs(x = "Populations", y="Size (mm)")+
+  ggtitle("Oyster Size (RWU)")+
+  ylim(0,100)
+
+NIN_plot <- ggplot(NIN_Size, aes(x=Line, y=Length, fill = Type))+
+  geom_boxplot()+
+  labs(x = "Populations", y="Size (mm)")+
+  ggtitle("Oyster Size (Ninigret)")+
+  ylim(0,100)
+
+WIC_plot <- ggplot(WIC_Size, aes(x=Line, y=Length, fill = Type))+
+  geom_boxplot()+
+  labs(x = "Populations", y="Size (mm)")+
+  ggtitle("Oyster Size (Wickford)")+
+  ylim(0,100)
+
+plot_grid(NIN_plot, WIC_plot, RWU_plot, nrow = 1, ncol =3)
 ```
 
 ## Survival Data
@@ -94,7 +120,6 @@ Surv_2023 <- rbind(WIC_Surv, NIN_Surv)
 ```
 
 Because we only have one replicate for survival for some populations we cannot do statistics on percent survival, instead we will use the survival curve to determine effects of Population and Site
-
 ```{r}
 library(survival)
 library(PAmeasures)
@@ -120,6 +145,7 @@ with(All_Surv, pam.censor(Age, p, Status))
 anova(SurvPopandSite, SurvPopxSite)
 ```
 
+Testing if there is an effect of site and population on survival
 ```{r}
 library(survival)
 library(PAmeasures)
@@ -131,7 +157,6 @@ summary(SurvPopxSite2023)
 ```
 
 ## Disease Data
-
 ```{r}
 library(tidyverse)
 #Reading in disease data
@@ -141,11 +166,11 @@ Disease <- read.csv("Disease2022.csv") %>% mutate(Lineage = recode(Lineage, FI="
   subset(Sample.ID != 'NR-209') %>%
   group_by(Lineage, Type) %>%
   mutate(Dermo_Infected = ifelse(Dermo.Intensity > 0, 1, 0)) %>%
-  mutate(MSX_Infected = ifelse(Dermo.Intensity > 0, 1, 0)) %>%
+  mutate(MSX_Infected = ifelse(MSX.Intensity > 0, 1, 0)) %>%
   mutate(SSO_Infected = ifelse(SSO.Intensity > 0, 1, 0)) 
 ```
 
-Statistical test on disease prevalence
+Statistical test on disease intensity
 ```{r}
 shapiro.test(Disease$Dermo.Intensity)
 kruskal.test(Disease$Dermo.Intensity ~ Disease$Lineage)
@@ -155,14 +180,13 @@ kruskal.test(Disease$MSX.Intensity ~ Disease$Lineage)
 dunn.test(Disease$MSX.Intensity, g = Disease$Lineage, method  = "bonferroni")
 ```
 
-Statistical test for disease intensity
+Statistical test for disease prevalence
 ```{r}
 shapiro.test(Disease$Dermo_Infected)
 kruskal.test(Disease$Dermo_Infected ~ Disease$Lineage)
 shapiro.test(Disease$MSX_Infected)
 kruskal.test(Disease$MSX_Infected ~ Disease$Lineage)
 ```
-
 
 Plotting disease intensity for Dermo and MSX
 ```{r}
