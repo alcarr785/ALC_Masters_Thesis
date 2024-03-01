@@ -1,9 +1,19 @@
 # Growth Data
 
-Reading in Data
+Importing Packages
 ```{r}
 library(tidyverse)
 library(dplyr)
+library(dunn.test)
+library(ggplot2)
+library(cowplot)
+library(survival)
+library(PAmeasures)
+library(survminer)
+```
+
+Reading in Data
+```{r}
 NIN_Size <- read.csv("NIN_End.csv")%>%
   select(Line, Bag.Number, Oyster.Number, Length) %>%
   mutate(Type = ifelse(Line == "CL1" | Line == "CL2", "Commercial", "Wild")) %>%
@@ -24,7 +34,7 @@ WIC_Size <- read.csv("WIC_End.csv")%>%
   group_by(Line, Bag) %>%
   mutate(Site = "Wickford") %>%
   mutate(Year = "2023")
-RWU_Size <- read.csv("RWU.csv") %>%
+Year1 <- read.csv("RWU.csv") %>%
   #Renaming commercial lines to keep them anonymous
   mutate(Line = recode(Line, FI="CL1", NEH="CL2")) %>%
   #Fixing a mistake in the sheet where lineage was accidentally entered as "Mv" instead of "MV"
@@ -40,8 +50,6 @@ RWU_Size <- read.csv("RWU.csv") %>%
   mutate(Type = ifelse(Line == "CL1" | Line == "CL2", "Commercial", "Wild")) %>%
   mutate(Bag = as.factor(Bag.Number)) %>%
   mutate(Oyster = Pit.Tag.End.Num) %>%
-  filter(Line != "NR") %>%
-  filter(Line != "CT") %>%
   mutate(Survived = ifelse(Status == "Alive" | Status == "alive" | Status =="alive, no pic", 1, 0)) %>%
   mutate(Survived = as.numeric(Survived)) %>%
   mutate(Length = as.numeric(Length)) %>%
@@ -50,13 +58,21 @@ RWU_Size <- read.csv("RWU.csv") %>%
   mutate(Year = "2022") %>%
   mutate(Site = "RWU") %>%
   select(Line, Bag, Oyster, Length, Type, Site, Year)
+RWU_Size <- Year1  %>%
+  filter(Line != "NR") %>%
+  filter(Line != "CT")
 All_data <- rbind(NIN_Size, RWU_Size, WIC_Size) %>% rename(Population = Line)
 Data_2023 <- rbind(NIN_Size, WIC_Size) %>% rename(Population = Line)
+```
+Using all populations for Year 1
+```{r}
+shapiro.test(Year1$Length)
+kruskal.test(Year1$Length ~ Year1$Line)
+dunn.test(Year1$Length, g=Year1$Line, method = "bonferroni")
 ```
 
 Determining if Population affects size
 ```{r}
-library(dunn.test)
 shapiro.test(All_data$Length)
 kruskal.test(All_data$Length ~ All_data$Population)
 dunn.test(All_data$Length, g = All_data$Population, method  = "bonferroni")
@@ -87,8 +103,6 @@ anova(PopandSite, PopxSite)
 
 Plotting Size for all sites and populations
 ```{r}
-library(ggplot2)
-library(cowplot)
 RWU_plot <- ggplot(RWU_Size, aes(x=Line, y=Length, fill = Type))+
   geom_boxplot()+
   labs(x = "Populations", y="Size (mm)")+
@@ -114,15 +128,16 @@ plot_grid(NIN_plot, WIC_plot, RWU_plot, nrow = 1, ncol =3)
 ```{r}
 WIC_Surv <- read.csv("WIC_Survival.csv")
 NIN_Surv <- read.csv("NIN_Survival.csv")
-RWU_Surv <- read.csv("RWU_Survival.csv")
+Y1_Surv <- read.csv("RWU_Survival.csv") 
+RWU_Surv <- Y1_Surv %>%
+  filter(Population != "CT") %>%
+  filter(Population != "NR")
 All_Surv <- rbind(WIC_Surv, NIN_Surv, RWU_Surv)
 Surv_2023 <- rbind(WIC_Surv, NIN_Surv)
 ```
 
 Because we only have one replicate for survival for some populations we cannot do statistics on percent survival, instead we will use the survival curve to determine effects of Population and Site
 ```{r}
-library(survival)
-library(PAmeasures)
 SurvPop <- survreg(Surv(Age, Status) ~ Population, data = All_Surv, dist = "weibull")
 summary(SurvPop)
 SurvSite <- survreg(Surv(Age, Status) ~ Site, data = All_Surv, dist = "weibull")
@@ -130,35 +145,57 @@ summary(SurvSite)
 SurvPopandSite <- survreg(Surv(Age, Status) ~ Population+Site, data = All_Surv, dist = "weibull")
 SurvPopxSite <- survreg(Surv(Age, Status) ~ Population*Site, data = All_Surv, dist = "weibull")
 summary(SurvPopxSite)
-fitted_values <- SurvPopxSite$linear.predictors
-resids <- (log(SurvPopxSite$y[, 1]) - fitted_values) / SurvPopxSite$scale
-resKM <- survfit(Surv(resids, Status) ~ 1, data = All_Surv)
-plot(resKM, mark.time = FALSE, xlab = "AFT Residuals", ylab = "Survival Probability")
-xx <- seq(min(resids), max(resids), length.out = 35)
-yy <- exp(- exp(xx))
-lines(xx, yy, col = "red", lwd = 2)
-legend("bottomleft", c("KM estimate", "95% CI KM estimate", 
-    "Survival function of Extreme Value distribution"), 
-    lty = c(1,2,1), col = c(1,1,2), bty = "n")
-p <- predict(SurvPopxSite, type = "response")
-with(All_Surv, pam.censor(Age, p, Status))
-anova(SurvPopandSite, SurvPopxSite)
+#fitted_values <- SurvPopxSite$linear.predictors
+#resids <- (log(SurvPopxSite$y[, 1]) - fitted_values) / SurvPopxSite$scale
+#resKM <- survfit(Surv(resids, Status) ~ 1, data = All_Surv)
+#plot(resKM, mark.time = FALSE, xlab = "AFT Residuals", ylab = "Survival Probability")
+#xx <- seq(min(resids), max(resids), length.out = 35)
+#yy <- exp(- exp(xx))
+#lines(xx, yy, col = "red", lwd = 2)
+#legend("bottomleft", c("KM estimate", "95% CI KM estimate", 
+#    "Survival function of Extreme Value distribution"), 
+#    lty = c(1,2,1), col = c(1,1,2), bty = "n")
+#p <- predict(SurvPopxSite, type = "response")
+#with(All_Surv, pam.censor(Age, p, Status))
+```
+Survival Using Year 1 oysters
+Using all populations for Year 1
+```{r}
+Surv2022 <- survreg(Surv(Age, Status) ~ Population, data = Y1_Surv, dist = "weibull")
+summary(Surv2022)
+Y1_data <- data.frame(Population = c("CL1","CL2","CT","GH","MV","NR"))
+surv <- seq(.99, .01, by = -.01)
+t1 <- predict(Surv2022, type = "quantile", p = 1 - surv, newdata = Y1_data)
+Y1_wbmod <- cbind(Y1_data, t1) %>%
+  pivot_longer(names_to = "surv_id", values_to = "time", cols = -c(1:2)) %>%
+  mutate(
+    surv_id = as.factor(as.numeric(surv_id))) %>%
+  data.frame()
+Y1_wbmod$surv = surv[as.numeric(Y1_wbmod$surv_id)]
+Y1_wbmod$upper = NA
+Y1_wbmod$lower = NA
+Y1_wbmod$std.err = NA
+Y1_wbmod$strata = NA
+Y1_wbmod[, c("upper", "lower", "std.err", "strata")] <- NA
+#Plotting probability of survival
+ggsurvplot_df(Y1_wbmod, surv.geom = geom_line,
+              color = "Population", legend.title = NULL, legend = c("right"), title = "Survival Time",
+              break.time.by = 1)
 ```
 
 Testing if there is an effect of site and population on survival
 ```{r}
-library(survival)
-library(PAmeasures)
-SurvPopandSite2023 <- survreg(Surv(Age, Status) ~ Population+Site, data = Surv_2023, dist = "weibull")
 SurvPopxSite2023 <- survreg(Surv(Age, Status) ~ Population*Site, data = Surv_2023, dist = "weibull")
-p <- predict(SurvPopxSite2023, type = "response")
-with(Surv_2023, pam.censor(Age, p, Status))
+NIN_survmod <- survreg(Surv(Age, Status) ~ Population, data = NIN_Surv, dist = "weibull")
+WIC_survmod <- survreg(Surv(Age, Status) ~ Population, data = WIC_Surv, dist = "weibull")
+Y2_data <- data.frame(Population = c("CL1","CL2","GH","MV"))
+surv <- seq(.99, .01, by = -.01)
+t1 <- predict(SurvPopxSite2023, type = "quantile", p = 1 - surv, newdata = NIN_Surv)
 summary(SurvPopxSite2023)
 ```
 
 ## Disease Data
 ```{r}
-library(tidyverse)
 #Reading in disease data
 Disease <- read.csv("Disease2022.csv") %>% mutate(Lineage = recode(Lineage, FI="CL1", NEH="CL2")) %>%
   mutate(Type = ifelse(Lineage == "CL1" | Lineage == "CL2", "Commercial", "Wild")) %>%
@@ -197,5 +234,17 @@ ggplot(Disease, aes(x= Lineage, y=MSX.Intensity, fill = Type))+
   geom_boxplot()+
   ylim(0,5)+
   ggtitle("MSX Intensity at 19 Months")
+```
+
+##Yield
+```{r}
+
+```
+
+```{r}
+Avg_Yield <- rbind(WIC_Yield, NIN_Yield, RWU_Yield) %>%
+  group_by(Line, Site, Type) %>%
+  summarize(Avg_yield = mean(Yield))
+
 ```
 

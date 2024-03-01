@@ -20,6 +20,10 @@ names(pca)[3:ncol(pca)] <- paste0("PC", 1:(ncol(pca)-1))
 pca <- pca %>% mutate(Population = recode(Population, FI = 'CL1', NEH = 'CL2')) %>%
   mutate(Type = ifelse(Population == "CL1" | Population == "CL2", "Commercial", "Wild"))
 pve <- data.frame(PC = 1:20, pve = eigenval/sum(eigenval)*100)
+PVE_all <- ggplot(pve, aes(PC, pve)) + geom_bar(stat = "identity")+
+  ylab("Percentage variance explained") + theme_light()+
+  ggtitle("Percent Variance Explained All Populations")
+plot(PVE_all)
 PCA_all <- ggplot(pca, aes(PC1, PC2, col = Population)) + 
   geom_point(size = 3, aes(shape = Type))
 PCA_all <- PCA_all + coord_equal() + theme_light() + scale_color_brewer(palette="Set1")
@@ -35,6 +39,10 @@ names(pca_wild)[1] <- "Population"
 names(pca_wild)[2] <- "Indv"
 names(pca_wild)[3:ncol(pca_wild)] <- paste0("PC", 1:(ncol(pca_wild)-1))
 pve_wild <- data.frame(PC = 1:20, pve_wild = eigenval_wild/sum(eigenval_wild)*100)
+PVE_wild <- ggplot(pve_wild, aes(PC, pve_wild)) + geom_bar(stat = "identity")+
+  ylab("Percentage variance explained") + theme_light()+
+  ggtitle("Percent Variance Explained Wild Populations")
+plot(PVE_wild)
 PCA_wild <- ggplot(pca_wild, aes(PC1, PC2, col = Population)) + 
   geom_point(size = 3)
 PCA_wild <- PCA_wild + coord_equal() + theme_light() + scale_color_brewer(palette="Set1")
