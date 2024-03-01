@@ -8,10 +8,10 @@ Options in effect:
   --remove FailedQC.remove
 
 Hostname: DESKTOP-9O3IIFV
-Working directory: /home/angellcarrasquillo/ALC_Masters_Thesis/Filtering_Tracked
-Start time: Tue Jan 23 10:40:23 2024
+Working directory: /home/angellcarrasquillo/ALC_Masters_Thesis/Filtering
+Start time: Fri Mar  1 13:16:59 2024
 
-Random number seed: 1706024423
+Random number seed: 1709317019
 8108 MB RAM detected; reserving 4054 MB for main workspace.
 Scanning .ped file...
 Possibly irregular .ped line.  Restarting scan, assuming multichar alleles.
@@ -31,4 +31,4 @@ Total genotyping rate in remaining samples is 0.966892.
 Note: No phenotypes present.
 --recode ped to RISG.passQC.ped + RISG.passQC.map ... done.
 
-End time: Tue Jan 23 10:40:24 2024
+End time: Fri Mar  1 13:17:00 2024

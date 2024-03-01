@@ -1,0 +1,27 @@
+PLINK v1.90b6.25 64-bit (5 Mar 2022)
+Options in effect:
+  --file ../FIS/CT.f
+  --freq
+  --out CT
+
+Hostname: DESKTOP-9O3IIFV
+Working directory: /home/angellcarrasquillo/ALC_Masters_Thesis/GeneticDiversity/PPL
+Start time: Fri Mar  1 13:48:46 2024
+
+Random number seed: 1709318926
+8108 MB RAM detected; reserving 4054 MB for main workspace.
+Scanning .ped file...
+Possibly irregular .ped line.  Restarting scan, assuming multichar alleles.
+.ped scan complete (for binary autoconversion).
+Performing single-pass .bed write (32353 variants, 28 people).
+--file: CT-temporary.bed + CT-temporary.bim + CT-temporary.fam written.
+32353 variants loaded from .bim file.
+28 people (0 males, 0 females, 28 ambiguous) loaded from .fam.
+Ambiguous sex IDs written to CT.nosex .
+Using 1 thread (no multithreaded calculations invoked).
+Before main variant filters, 28 founders and 0 nonfounders present.
+Calculating allele frequencies... done.
+Total genotyping rate is 0.99496.
+--freq: Allele frequencies (founders only) written to CT.frq .
+
+End time: Fri Mar  1 13:48:46 2024
