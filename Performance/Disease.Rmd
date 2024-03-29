@@ -1,0 +1,39 @@
+## Disease
+
+## Disease Data
+```{r}
+#Reading in disease data
+Disease <- read.csv("Disease2022.csv") %>% mutate(Lineage = recode(Lineage, FI="CL1", NEH="CL2")) %>%
+  mutate(Type = ifelse(Lineage == "CL1" | Lineage == "CL2", "Commercial", "Wild")) %>%
+#Creating columns for disease prevalence
+  subset(Sample.ID != 'NR-209') %>%
+  group_by(Lineage, Type) %>%
+  mutate(Dermo_Infected = ifelse(Dermo.Intensity > 0, 1, 0)) %>%
+  mutate(MSX_Infected = ifelse(MSX.Intensity > 0, 1, 0)) %>%
+  mutate(SSO_Infected = ifelse(SSO.Intensity > 0, 1, 0)) 
+```
+
+Statistical test on disease intensity
+```{r}
+shapiro.test(Disease$Dermo.Intensity)
+kruskal.test(Disease$Dermo.Intensity ~ Disease$Lineage)
+dunn.test(Disease$Dermo.Intensity, g = Disease$Lineage, method  = "bonferroni")
+shapiro.test(Disease$MSX.Intensity)
+kruskal.test(Disease$MSX.Intensity ~ Disease$Lineage)
+dunn.test(Disease$MSX.Intensity, g = Disease$Lineage, method  = "bonferroni")
+```
+
+Plotting disease intensity for Dermo and MSX
+```{r}
+ggplot(Disease, aes(x= Lineage, y=Dermo.Intensity, fill = Type))+
+  geom_boxplot()+
+  ggtitle("Weighted Prevalence of Dermo at 16 Months")+
+  xlab("Population")+
+  ylab("Weighted Prevalence")
+ggplot(Disease, aes(x= Lineage, y=MSX.Intensity, fill = Type))+
+  geom_boxplot()+
+  ylim(0,5)+
+  ggtitle("Weighted Prevalence of MSX at 16 Months")+
+  xlab("Population")+
+  ylab("Weighted Prevalence")
+```

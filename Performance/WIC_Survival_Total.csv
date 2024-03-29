@@ -1,0 +1,9 @@
+Population,Bag,Total,Survived,Percent Survival,Type,Site
+GH,1,122,4,0.032786885,Wild,Wickford
+MV,1,61,10,0.163934426,Wild,Wickford
+CL2,1,61,8,0.131147541,Commercial,Wickford
+CL2,2,79,7,0.088607595,Commercial,Wickford
+CL2,3,91,17,0.186813187,Commercial,Wickford
+CL1,1,259,35,0.135135135,Commercial,Wickford
+CL1,2,230,11,0.047826087,Commercial,Wickford
+CL1,3,206,18,0.087378641,Commercial,Wickford

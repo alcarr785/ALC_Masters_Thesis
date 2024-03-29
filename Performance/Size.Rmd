@@ -1,0 +1,122 @@
+# Growth Data
+
+Importing Packages
+```{r}
+library(tidyverse)
+library(cowplot)
+library(dunn.test)
+```
+
+Reading in Data
+```{r}
+NIN_Size <- read.csv("NIN_End.csv")%>%
+  select(Line, Bag.Number, Oyster.Number, Length) %>%
+  mutate(Type = ifelse(Line == "CL1" | Line == "CL2", "Commercial", "Wild")) %>%
+  filter(!is.na(Length)) %>%
+  rename(Bag = Bag.Number, Oyster = Oyster.Number) %>%
+  mutate(Bag = as.factor(Bag)) %>%
+  mutate(Oyster = as.factor(Oyster)) %>%
+  group_by(Line, Bag) %>%
+  mutate(Site = "Ninigret") %>%
+  mutate(Year = "2023")
+WIC_Size <- read.csv("WIC_End.csv")%>%
+  select(Line, Bag.., Oyster.., Length) %>%
+  mutate(Type = ifelse(Line == "CL1" | Line == "CL2", "Commercial", "Wild")) %>%
+  filter(!is.na(Length)) %>%
+  rename(Bag = Bag.., Oyster = Oyster..) %>%
+  mutate(Bag = as.factor(Bag)) %>%
+  mutate(Oyster = as.factor(Oyster)) %>%
+  group_by(Line, Bag) %>%
+  mutate(Site = "Wickford") %>%
+  mutate(Year = "2023")
+Year1 <- read.csv("RWU.csv") %>%
+  #Renaming commercial lines to keep them anonymous
+  mutate(Line = recode(Line, FI="CL1", NEH="CL2")) %>%
+  #Fixing a mistake in the sheet where lineage was accidentally entered as "Mv" instead of "MV"
+  mutate(Line = recode(Line, Mv="MV")) %>%
+  #Keeping only oysters recored at the end of the study.
+  filter(Date == "19-Oct-22") %>%
+  #Removing oysters with missing tags
+  filter(Pit.Tag.End.Num != "no tag") %>%
+  filter(!is.na(Length)) %>%
+  #Keeping only relevant information
+  select(Date, Line, Length, Bag.Number, Status, Pit.Tag.End.Num) %>%
+  #Defining oysters as either wild or commercial
+  mutate(Type = ifelse(Line == "CL1" | Line == "CL2", "Commercial", "Wild")) %>%
+  mutate(Bag = as.factor(Bag.Number)) %>%
+  mutate(Oyster = Pit.Tag.End.Num) %>%
+  mutate(Survived = ifelse(Status == "Alive" | Status == "alive" | Status =="alive, no pic", 1, 0)) %>%
+  mutate(Survived = as.numeric(Survived)) %>%
+  mutate(Length = as.numeric(Length)) %>%
+  mutate(Line = factor(Line, levels = c("CL1", "CL2", "GH", "MV", "CT", "NR"))) %>%
+  filter(!is.na(Length)) %>%
+  filter(Survived != 0) %>%
+  mutate(Year = "2022") %>%
+  mutate(Site = "RWU") %>%
+  select(Line, Bag, Oyster, Length, Type, Site, Year)
+RWU_Size <- Year1  %>%
+  filter(Line != "NR") %>%
+  filter(Line != "CT")
+All_data <- rbind(NIN_Size, RWU_Size, WIC_Size) %>% rename(Population = Line)
+Data_2023 <- rbind(NIN_Size, WIC_Size) %>% rename(Population = Line)
+```
+
+Using 2023 data to see if there is an effect of Population and Site for one year
+```{r}
+PopandSite2023 <- lm(log(Length) ~ Site+Population, data = Data_2023)
+PopxSite2023 <- lm(log(Length) ~ Site*Population, data = Data_2023)
+summary(PopxSite2023)
+anova(PopandSite2023, PopxSite2023)
+```
+
+Determining the Effects of Populaton and Site for 2022 and 2023
+```{r}
+PopandSite <- lmer(log(Length) ~ 1+Population+(1|Bag)+Site, data = All_data)
+PopxSite <- lmer(log(Length) ~ 1+Population+(1|Bag)+Site+(1|Site:Population), data = All_data)
+summary(PopxSite)
+anova(PopandSite, PopxSite)
+```
+
+Plotting Size for all sites and populations
+```{r}
+RWU_plot <- ggplot(RWU_Size, aes(x=Line, y=Length, fill = Type))+
+  geom_boxplot()+
+  labs(x = "Populations", y="Size (mm)")+
+  ggtitle("Oyster Size (RWU)")+
+  ylim(0,100)
+
+NIN_plot <- ggplot(NIN_Size, aes(x=Line, y=Length, fill = Type))+
+  geom_boxplot()+
+  labs(x = "Populations", y="Size (mm)")+
+  ggtitle("Oyster Size (Ninigret)")+
+  ylim(0,100)
+
+WIC_plot <- ggplot(WIC_Size, aes(x=Line, y=Length, fill = Type))+
+  geom_boxplot()+
+  labs(x = "Populations", y="Size (mm)")+
+  ggtitle("Oyster Size (Wickford)")+
+  ylim(0,100)
+
+Year1_plot <- ggplot(Year1, aes(x=Line, y=Length, fill = Type))+
+  geom_boxplot()+
+  labs(x = "Population", y="Size (mm)")+
+  ggtitle("Oyster Size (RWU)")+
+  ylim(0,100)
+plot_grid(NIN_plot, WIC_plot, labels = c("A", "B"), nrow = 1, ncol =2)
+```
+
+Plotting Genotype by Environment Interactions
+```{r}
+Site_Avg_Size <- All_data %>% 
+  group_by(Site, Population) %>%
+  summarize(Avg = mean(Length)) %>%
+  group_by(Site) %>%
+  mutate(Site_Size = mean(Avg)) %>%
+  mutate(Type = ifelse((Population == "GH" | Population =="MV"), "Wild", "Commercial"))
+ggplot(Site_Avg_Size, aes(x=Site_Size, y=Avg, shape = Population, color = Type))+
+  geom_point()+
+  geom_smooth(method=lm, se = FALSE)
+
+```
+
+

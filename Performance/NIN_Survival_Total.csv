@@ -1,0 +1,13 @@
+Population,Bag,Total,Survived,Percent Survival,Type,Site
+CL2,1,361,218,0.603878116,Commercial,Ninigret
+CL2,2,617,238,0.385737439,Commercial,Ninigret
+CL2,3,452,311,0.688053097,Commercial,Ninigret
+GH,1,110,96,0.872727273,Wild,Ninigret
+GH,2,110,85,0.772727273,Wild,Ninigret
+GH,3,93,83,0.892473118,Wild,Ninigret
+CL1,1,37,8,0.216216216,Commercial,Ninigret
+CL1,2,42,13,0.30952381,Commercial,Ninigret
+CL1,3,38,12,0.315789474,Commercial,Ninigret
+MV,1,851,211,0.247943596,Wild,Ninigret
+MV,2,453,248,0.547461369,Wild,Ninigret
+MV,3,726,191,0.263085399,Wild,Ninigret

@@ -1,0 +1,98 @@
+## Survival Data
+
+```{r}
+library(tidyverse)
+library(survival)
+library(survminer)
+```
+
+```{r}
+WIC_Surv <- read.csv("WIC_Survival.csv")
+NIN_Surv <- read.csv("NIN_Survival.csv")
+Y1_Surv <- read.csv("RWU_Survival.csv") 
+RWU_Surv <- Y1_Surv %>%
+  filter(Population != "CT") %>%
+  filter(Population != "NR")
+All_Surv <- rbind(WIC_Surv, NIN_Surv, RWU_Surv)
+Surv_2023 <- rbind(WIC_Surv, NIN_Surv)
+```
+
+Because we only have one replicate for survival for some populations we cannot do statistics on percent survival, instead we will use the survival curve to determine effects of Population and Site
+```{r}
+SurvPop <- survreg(Surv(Age, Status) ~ Population, data = All_Surv, dist = "weibull")
+summary(SurvPop)
+SurvSite <- survreg(Surv(Age, Status) ~ Site, data = All_Surv, dist = "weibull")
+summary(SurvSite)
+SurvPopxSite <- survreg(Surv(Age, Status) ~ Population*Site, data = All_Surv, dist = "weibull")
+summary(SurvPopxSite)
+```
+Survival Using Year 1 oysters
+Using all populations for Year 1
+```{r}
+Surv2022 <- survreg(Surv(Age, Status) ~ Population, data = Y1_Surv, dist = "weibull")
+summary(Surv2022)
+Y1_data <- data.frame(Population = c("CL1","CL2","CT","GH","MV","NR"))
+surv <- seq(.99, .01, by = -.01)
+t1 <- predict(Surv2022, type = "quantile", p = 1 - surv, newdata = Y1_data)
+Y1_wbmod <- cbind(Y1_data, t1) %>%
+  pivot_longer(names_to = "surv_id", values_to = "time", cols = -c(1:2)) %>%
+  mutate(
+    surv_id = as.factor(as.numeric(surv_id))) %>%
+  data.frame()
+Y1_wbmod$surv = surv[as.numeric(Y1_wbmod$surv_id)]
+Y1_wbmod$upper = NA
+Y1_wbmod$lower = NA
+Y1_wbmod$std.err = NA
+Y1_wbmod$strata = NA
+Y1_wbmod[, c("upper", "lower", "std.err", "strata")] <- NA
+#Plotting probability of survival
+ggsurvplot_df(Y1_wbmod, surv.geom = geom_line,
+              color = "Population", legend.title = NULL, legend = c("right"), title = "Survival Time",
+              break.time.by = 1)
+```
+
+Testing if there is an effect of site and population on survival for 2023 data
+```{r}
+SurvPopandSite2023 <- survreg(Surv(Age, Status) ~ Population+Site, data = Surv_2023, dist = "weibull")
+SurvPopxSite2023 <- survreg(Surv(Age, Status) ~ Population*Site, data = Surv_2023, dist = "weibull")
+NIN_survmod <- survreg(Surv(Age, Status) ~ Population, data = NIN_Surv, dist = "weibull")
+WIC_survmod <- survreg(Surv(Age, Status) ~ Population, data = WIC_Surv, dist = "weibull")
+summary(SurvPopxSite2023)
+anova(SurvPopandSite2023, SurvPopxSite2023)
+```
+```{r}
+Site_Avg_Surv <- rbind(read.csv("RWU_Survival_Total.csv"), read.csv("WIC_Survival_Total.csv"), read.csv("NIN_Survival_Total.csv")) %>%
+  group_by(Population, Site) %>%
+  summarize(Pop_Surv = mean(Percent.Survival)) %>%
+  group_by(Site) %>%
+  mutate(Site_Surv = mean(Pop_Surv)) %>%
+  mutate(Type = ifelse((Population == "GH" | Population =="MV"), "Wild", "Commercial"))
+ggplot(Site_Avg_Surv, aes(x=Site_Surv, y=Pop_Surv, shape = Population, color = Type))+
+  geom_point()+
+  geom_smooth(method=lm, se = FALSE)
+```
+
+```{r}
+Year1_Surv_Plot <- ggplot(Year1_Survival, aes(x=Population, y=Percent.Survival*100, fill=Type))+
+  geom_boxplot()+
+  ylim(0,100)+
+  ggtitle("Percent Survival (RWU)") +
+  ylab("Percent Survival (%)")
+```
+
+```{r}
+WIC_Surv <- read.csv("WIC_Survival_Total.csv")
+NIN_Surv <- read.csv("NIN_Survival_Total.csv")
+NIN_Surv_Plot <- ggplot(NIN_Surv, aes(x=Population, y=Percent.Survival*100, fill=Type))+
+  geom_boxplot()+
+  ggtitle("Percent Survival (Ninigret)") +
+  ylab("Percent Survival (%)")+
+  ylim(0,100)
+WIC_Surv_Plot <- ggplot(WIC_Surv, aes(x=Population, y=Percent.Survival*100, fill=Type))+
+  geom_boxplot()+
+  ggtitle("Percent Survival (Wickford)") +
+  ylab("Percent Survival (%)")+
+  ylim(0,100)
+plot_grid(NIN_Surv_Plot, WIC_Surv_Plot, labels =c("A","B"), nrow = 1, ncol =2)
+```
+

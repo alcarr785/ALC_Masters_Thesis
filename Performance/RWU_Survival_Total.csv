@@ -1,0 +1,10 @@
+Population,Bag,Total,Survived,Percent.Survival,Type,Site
+CL1,1,55,33,0.6,Commercial,RWU
+CL1,2,55,40,0.727272727,Commercial,RWU
+CL1,3,55,40,0.727272727,Commercial,RWU
+CL2,1,55,27,0.490909091,Commercial,RWU
+CL2,2,55,48,0.872727273,Commercial,RWU
+GH,3,55,40,0.727272727,Wild,RWU
+MV,1,55,20,0.363636364,Wild,RWU
+MV,2,55,27,0.490909091,Wild,RWU
+MV,3,55,27,0.490909091,Wild,RWU

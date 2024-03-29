@@ -1,0 +1,14 @@
+Population,Bag,Type,Percent Survival
+CL1,1,Commercial,0.6
+CL1,2,Commercial,0.727272727
+CL1,3,Commercial,0.727272727
+CL2,1,Commercial,0.490909091
+CL2,2,Commercial,0.872727273
+CT,1,Wild,0.690909091
+CT,2,Wild,0.872727273
+CT,3,Wild,0.909090909
+GH,3,Wild,0.727272727
+MV,1,Wild,0.363636364
+MV,2,Wild,0.490909091
+MV,3,Wild,0.490909091
+NR,2,Wild,0.181818182

@@ -13,6 +13,12 @@ PCA data imported into R for plotting using both wild populations and all popula
 library(tidyverse)
 pca <- read_table("RISG.all.eigenvec", col_names = FALSE)
 eigenval <- scan("RISG.all.eigenval")
+pca_wild <- read_table2("RISG.wild.eigenvec", col_names = FALSE)
+eigenval_wild <- scan("RISG.wild.eigenval")
+```
+
+Making tables for principal components and percent of variance explained
+```{r}
 # set names
 names(pca)[1] <- "Population"
 names(pca)[2] <- "Indv"
@@ -24,6 +30,10 @@ PVE_all <- ggplot(pve, aes(PC, pve)) + geom_bar(stat = "identity")+
   ylab("Percentage variance explained") + theme_light()+
   ggtitle("Percent Variance Explained All Populations")
 plot(PVE_all)
+```
+
+Plotting PCA
+```{r}
 PCA_all <- ggplot(pca, aes(PC1, PC2, col = Population)) + 
   geom_point(size = 3, aes(shape = Type))
 PCA_all <- PCA_all + coord_equal() + theme_light() + scale_color_brewer(palette="Set1")
@@ -31,9 +41,8 @@ PCA_all <- PCA_all + xlab(paste0("PC1 (", signif(pve$pve[1], 3), "%)")) + ylab(p
 plot(PCA_all)
 ```
 
+Making tables for principal components and percent of variance explained for wild populations
 ```{r}
-pca_wild <- read_table2("RISG.wild.eigenvec", col_names = FALSE)
-eigenval_wild <- scan("RISG.wild.eigenval")
 # set names
 names(pca_wild)[1] <- "Population"
 names(pca_wild)[2] <- "Indv"
@@ -43,6 +52,10 @@ PVE_wild <- ggplot(pve_wild, aes(PC, pve_wild)) + geom_bar(stat = "identity")+
   ylab("Percentage variance explained") + theme_light()+
   ggtitle("Percent Variance Explained Wild Populations")
 plot(PVE_wild)
+```
+
+Plotting PCA for wild populations
+```{r}
 PCA_wild <- ggplot(pca_wild, aes(PC1, PC2, col = Population)) + 
   geom_point(size = 3)
 PCA_wild <- PCA_wild + coord_equal() + theme_light() + scale_color_brewer(palette="Set1")

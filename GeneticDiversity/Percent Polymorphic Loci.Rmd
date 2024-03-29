@@ -1,0 +1,38 @@
+## Percent of Polymorphic Loci
+
+To determine the allele frequencies of each SNP in each population we can use the --frq function for the population level plink files generated in the Heterozygosity and Inbreeding protocol
+```{bash}
+for pop in {FI,MV,CT,NR,NEH,GH}; do plink --file $pop.f --frq --out $pop; done
+```
+
+To get the percent of polymorphic loci in each population, we take the number of SNPS in each population with a minor allele frequency greater than zero and divide that by 32,354 which is the number of SNPs kept after filtering. 
+```{r}
+library(tidyverse)
+CT_ppl <- read.table("PPL/CT.frq", header = TRUE) %>%
+  summarize(Population = "CT", Poly = sum(MAF != 0), Fixed = sum(MAF == 0), Po = sum(MAF != 0)/32353)%>%
+  mutate(Type="Wild")
+NR_ppl <- read.table("PPL/NR.frq", header = TRUE) %>%
+  summarize(Population = "NR", Poly = sum(MAF != 0), Fixed = sum(MAF == 0), Po = sum(MAF != 0)/32353)%>%
+  mutate(Type="Wild")
+CL2_ppl <- read.table("PPL/NEH.frq", header = TRUE) %>%
+  summarize(Population = "CL2", Poly = sum(MAF != 0), Fixed = sum(MAF == 0), Po = sum(MAF != 0)/32353)%>%
+  mutate(Type="Wild")
+CL1_ppl <- read.table("PPL/FI.frq", header = TRUE) %>%
+  summarize(Population = "CL1", Poly = sum(MAF != 0), Fixed = sum(MAF == 0), Po = sum(MAF != 0)/32353)%>%
+  mutate(Type="Wild")
+MV_ppl <- read.table("PPL/MV.frq", header = TRUE) %>%
+  summarize(Population = "MV", Poly = sum(MAF != 0), Fixed = sum(MAF == 0), Po = sum(MAF != 0)/32353)%>%
+  mutate(Type="Wild")
+GH_ppl <- read.table("PPL/GH.frq", header = TRUE) %>%
+  summarize(Population = "GH", Poly = sum(MAF != 0), Fixed = sum(MAF == 0), Po = sum(MAF != 0)/32353)%>%
+  mutate(Type="Wild")
+All_ppl <- rbind(GH_ppl, NR_ppl, CT_ppl, CL1_ppl, CL2_ppl, MV_ppl)
+```
+
+Plotting percent of polymorphic loci
+```{r}
+Po_Plot <- ggplot(All_ppl, aes(x=Population, y=Po, fill = Type))+
+  geom_bar(stat="identity")+
+  ggtitle("Proportion of Polymorphic Loci")
+```
+

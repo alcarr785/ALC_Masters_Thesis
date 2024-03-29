@@ -1,0 +1,68 @@
+##Yield
+```{r}
+library(tidyverse)
+```
+
+```{r}
+Year1_Size <- read.csv("Year1.csv") %>% 
+  filter(Bag != "1" | Population != "GH") %>%
+  group_by(Population, Bag) %>%
+  mutate(Unsellable = ifelse(Length < 40, 1, 0))%>%
+  mutate(Length = ifelse(Length < 40, NA, Length)) %>%
+  summarize(Avg_Size = mean((Length), na.rm = TRUE), Survived = n(), Unsellable = sum(Unsellable)) %>%
+  mutate(Total = 55) 
+Year1_Yield <- Year1_Size %>%
+  mutate(Sellable = Survived-Unsellable) %>%
+  mutate(Percent_Sellable = Sellable/Total) %>%
+  mutate(Type = ifelse((Population == "CL2" | Population =="CL1"), "Commercial", "Wild")) %>%
+  mutate(Population = factor(Population, levels = c("CL1", "CL2", "GH", "MV", "CT", "NR"))) %>%
+  mutate(Yield = Percent_Sellable*Avg_Size*500) 
+Year1_Yield_Avg <- Year1_Yield %>%
+  group_by(Population) %>%
+  summarize(Avg_Yield = mean(Yield))
+Yield_Survival <- rbind(read.csv("RWU_Survival_Total.csv"), read.csv("WIC_Survival_Total.csv"), read.csv("NIN_Survival_Total.csv"))
+Yield_Size <- read.csv("All_Size.csv") %>% 
+  filter(Bag != "1" | Population != "GH"| Site  != "RWU") %>%
+  mutate(Unsellable = ifelse(Length < 40, 1, 0)) %>%
+  mutate(Length = ifelse(Length < 40, NA, Length)) %>%
+  group_by(Population, Bag, Site) %>%
+  summarize(Unsellable = sum(Unsellable), Avg_size = mean((Length), na.rm = TRUE)) 
+Yield <- merge(Yield_Survival, Yield_Size, by= c("Population", "Site", "Bag")) %>%
+  mutate(Avg_size = ifelse(Avg_size == "NaN", 0, Avg_size)) %>%
+  mutate(Sellable = Survived-Unsellable) %>%
+  mutate(Percent_Sellable = Sellable/Total) %>%
+  mutate(Yield = Percent_Sellable*Avg_size*500) 
+Avg_Yield <- Yield %>%
+  group_by(Population, Site) %>%
+  summarize(Pop_Yield = mean(Yield)) %>%
+  group_by(Site) %>%
+  mutate(Site_Yield = mean(Pop_Yield)) %>%
+  mutate(Type = ifelse((Population == "GH" | Population =="MV"), "Wild", "Commercial")) 
+ggplot(Avg_Yield, aes(x=Site_Yield, y=Pop_Yield, shape = Population, color = Type))+
+  geom_point()+
+  geom_smooth(method=lm, se = FALSE)  
+```
+
+```{r}
+Year1_Yield_Plot <- ggplot(Year1_Yield, aes(x=Population, y=Yield, fill=Type))+
+  geom_boxplot()+
+  ggtitle("Yield (RWU)") +
+  ylab("Yield (mm)")
+```
+
+```{r}
+NIN_Yield <- subset(Yield, Site == "Ninigret")
+WIC_Yield <- subset(Yield, Site == "Wickford")
+NIN_Yield_Plot <- ggplot(NIN_Yield, aes(x=Population, y=Yield, fill=Type))+
+  geom_boxplot()+
+  ggtitle("Yield (Ninigret)") +
+  ylab("Yield (mm)")+
+  ylim(0,20000)
+WIC_Yield_Plot <- ggplot(WIC_Yield, aes(x=Population, y=Yield, fill=Type))+
+  geom_boxplot()+
+  ggtitle("Yield (Wickford)") +
+  ylab("Yield (mm)")+
+  ylim(0,20000)
+plot_grid(NIN_Yield_Plot, WIC_Yield_Plot, labels = c("A", "B"), nrow = 1, ncol =2)
+```
+

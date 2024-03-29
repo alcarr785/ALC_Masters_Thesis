@@ -1,9 +1,13 @@
 # Fst
 
-Reading in Files and Converting to genlight for StAMPP
+FST was calculated using the vcf file used for filtering.
+Pairwise Fst and P-values were calculated using the R package StAMPP
+
+First the vcf file was read into a genind file and populations were identified
 ```{r}
 library(StAMPP)
 library(tidyverse)
+library(reshape2)
 RISG_genind <- vcfR2genind(read.vcfR("../Filtering/RISG.vcf"))
 Samples <- read.table("../GeneticDiversity/Samples.txt", header = TRUE) %>% 
   mutate(Population = recode(Population, FI = 'CL1', NEH = 'CL2'))
@@ -13,20 +17,20 @@ setPop(RISG_genind) <- ~Population
 RISG_genlight <- stamppConvert(RISG_genind, "genlight")
 ```
 
-Doing Pairwise Fst
+Pairwise Fst was calulated using the following parameters:
+Number of Bootstraps: 10,000\
+Confidence Interval: 95%\
 ```{r}
 RISG_Fst <- stamppFst(RISG_genlight, 10000, 95, 4)
 ```
-
+StAMPP created two matrices, one for pairwise Fst and one for P-values
 ```{r}
 Fst <- RISG_Fst$Fsts
 Pval <- RISG_Fst$Pvalues
 ```
 
-Plotting Fst
+Here we plot the Fst matrix using a heatmap
 ```{r}
-library(reshape2)
-library(ggplot2)
 Fst_melt <- melt(Fst, na.rm = TRUE)
 Fst_plot <- ggplot(data = Fst_melt, aes(Var2, Var1, fill = value))+ 
   geom_tile()+
@@ -36,11 +40,5 @@ Fst_plot <- ggplot(data = Fst_melt, aes(Var2, Var1, fill = value))+
   geom_text(aes(label=format(round(value,2))))+
   ggtitle("Pairwise Fst Values")
 plot(Fst_plot)
-```
-
-Saving Fsts to csv
-```{r}
-write.csv(RISG_Fst$Fsts, "Fst.csv")
-write.csv(RISG_Fst$Pvalues, "Fst_Pvalues.csv")
 ```
 
