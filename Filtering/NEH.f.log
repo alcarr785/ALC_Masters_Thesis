@@ -1,39 +1,35 @@
-PLINK v1.90b6.25 64-bit (5 Mar 2022)
+PLINK v1.90b7.2 64-bit (11 Dec 2023)
 Options in effect:
-  --allow-extra-chr
-  --chr 1-10
-  --chr-set 94
   --file NEH.uf
-  --geno 0.05
   --hwe 1e-6
-  --mind 0.05
   --out NEH.f
   --recode
 
-Hostname: DESKTOP-9O3IIFV
-Working directory: /home/angellcarrasquillo/ALC_Masters_Thesis/Filtering
-Start time: Fri Mar  1 13:17:28 2024
+Hostname: CrystalBall
+Working directory: /home/alcarr/ALC_Masters_Thesis/Filtering
+Start time: Fri Apr 12 16:54:17 2024
 
-Random number seed: 1709317048
-8108 MB RAM detected; reserving 4054 MB for main workspace.
+Random number seed: 1712955257
+7731 MB RAM detected; reserving 3865 MB for main workspace.
 Scanning .ped file...
 Possibly irregular .ped line.  Restarting scan, assuming multichar alleles.
 .ped scan complete (for binary autoconversion).
-Performing single-pass .bed write (65862 variants, 20 samples).
+Performing single-pass .bed write (47655 variants, 20 people).
 --file: NEH.f-temporary.bed + NEH.f-temporary.bim + NEH.f-temporary.fam
 written.
-65862 variants loaded from .bim file.
-20 samples (0 males, 0 females, 20 ambiguous) loaded from .fam.
+47655 variants loaded from .bim file.
+20 people (0 males, 0 females, 20 ambiguous) loaded from .fam.
 Ambiguous sex IDs written to NEH.f.nosex .
-0 samples removed due to missing genotype data (--mind).
 Using 1 thread (no multithreaded calculations invoked).
 Before main variant filters, 20 founders and 0 nonfounders present.
 Calculating allele frequencies... done.
-Total genotyping rate is 0.985613.
-3811 variants removed due to missing genotype data (--geno).
+Total genotyping rate is 0.990728.
+Warning: --hwe observation counts vary by more than 10%.  Consider using
+--geno, and/or applying different p-value thresholds to distinct subsets of
+your data.
 --hwe: 0 variants removed due to Hardy-Weinberg exact test.
-62051 variants and 20 samples pass filters and QC.
+47655 variants and 20 people pass filters and QC.
 Note: No phenotypes present.
 --recode ped to NEH.f.ped + NEH.f.map ... done.
 
-End time: Fri Mar  1 13:17:28 2024
+End time: Fri Apr 12 16:54:17 2024

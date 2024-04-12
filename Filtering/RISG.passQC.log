@@ -1,34 +1,45 @@
-PLINK v1.90b6.25 64-bit (5 Mar 2022)
+PLINK v1.90b7.2 64-bit (11 Dec 2023)
 Options in effect:
   --allow-extra-chr
+  --chr 1-10
   --chr-set 94
-  --file RISG_uf
+  --extract plink.prune.in
+  --file RISG.raw
+  --geno 0.05
+  --maf 0.05
+  --mind 0.05
   --out RISG.passQC
   --recode
   --remove FailedQC.remove
 
-Hostname: DESKTOP-9O3IIFV
-Working directory: /home/angellcarrasquillo/ALC_Masters_Thesis/Filtering
-Start time: Fri Mar  1 13:16:59 2024
+Hostname: CrystalBall
+Working directory: /home/alcarr/ALC_Masters_Thesis/Filtering
+Start time: Fri Apr 12 16:53:50 2024
 
-Random number seed: 1709317019
-8108 MB RAM detected; reserving 4054 MB for main workspace.
+Random number seed: 1712955230
+7731 MB RAM detected; reserving 3865 MB for main workspace.
 Scanning .ped file...
 Possibly irregular .ped line.  Restarting scan, assuming multichar alleles.
 .ped scan complete (for binary autoconversion).
-Performing single-pass .bed write (65893 variants, 129 samples).
+Performing single-pass .bed write (65862 variants, 129 samples).
 --file: RISG.passQC-temporary.bed + RISG.passQC-temporary.bim +
 RISG.passQC-temporary.fam written.
-65893 variants loaded from .bim file.
+65862 variants loaded from .bim file.
 129 samples (0 males, 0 females, 129 ambiguous) loaded from .fam.
 Ambiguous sex IDs written to RISG.passQC.nosex .
---remove: 126 samples remaining.
+--extract: 57305 variants remaining.
+--remove: 120 samples remaining.
+6 samples removed due to missing genotype data (--mind).
+IDs written to RISG.passQC.irem .
 Using 1 thread (no multithreaded calculations invoked).
-Before main variant filters, 126 founders and 0 nonfounders present.
+Before main variant filters, 114 founders and 0 nonfounders present.
 Calculating allele frequencies... done.
-Total genotyping rate in remaining samples is 0.966892.
-65893 variants and 126 samples pass filters and QC.
+Total genotyping rate in remaining samples is 0.983942.
+4304 variants removed due to missing genotype data (--geno).
+5346 variants removed due to minor allele threshold(s)
+(--maf/--max-maf/--mac/--max-mac).
+47655 variants and 114 samples pass filters and QC.
 Note: No phenotypes present.
 --recode ped to RISG.passQC.ped + RISG.passQC.map ... done.
 
-End time: Fri Mar  1 13:17:00 2024
+End time: Fri Apr 12 16:53:51 2024

@@ -1,4 +1,4 @@
-PLINK v1.90b6.25 64-bit (5 Mar 2022)
+PLINK v1.90b7.2 64-bit (11 Dec 2023)
 Options in effect:
   --allow-extra-chr
   --chr-set 94
@@ -6,28 +6,28 @@ Options in effect:
   --out RISG.wild
   --pca
 
-Hostname: DESKTOP-9O3IIFV
-Working directory: /home/angellcarrasquillo/ALC_Masters_Thesis/PCA
-Start time: Fri Mar  1 13:41:28 2024
+Hostname: CrystalBall
+Working directory: /home/alcarr/ALC_Masters_Thesis/PCA
+Start time: Fri Apr 12 17:09:39 2024
 
-Random number seed: 1709318488
-8108 MB RAM detected; reserving 4054 MB for main workspace.
+Random number seed: 1712956179
+7731 MB RAM detected; reserving 3865 MB for main workspace.
 Scanning .ped file...
 Possibly irregular .ped line.  Restarting scan, assuming multichar alleles.
 .ped scan complete (for binary autoconversion).
-Performing single-pass .bed write (37535 variants, 87 samples).
+Performing single-pass .bed write (47293 variants, 81 samples).
 --file: RISG.wild-temporary.bed + RISG.wild-temporary.bim +
 RISG.wild-temporary.fam written.
-37535 variants loaded from .bim file.
-87 samples (0 males, 0 females, 87 ambiguous) loaded from .fam.
+47293 variants loaded from .bim file.
+81 samples (0 males, 0 females, 81 ambiguous) loaded from .fam.
 Ambiguous sex IDs written to RISG.wild.nosex .
-Using up to 8 threads (change this with --threads).
-Before main variant filters, 87 founders and 0 nonfounders present.
+Using up to 11 threads (change this with --threads).
+Before main variant filters, 81 founders and 0 nonfounders present.
 Calculating allele frequencies... done.
-Total genotyping rate is 0.996653.
-37535 variants and 87 samples pass filters and QC.
+Total genotyping rate is 0.988966.
+47293 variants and 81 samples pass filters and QC.
 Note: No phenotypes present.
 Relationship matrix calculation complete.
 --pca: Results saved to RISG.wild.eigenval and RISG.wild.eigenvec .
 
-End time: Fri Mar  1 13:41:28 2024
+End time: Fri Apr 12 17:09:40 2024

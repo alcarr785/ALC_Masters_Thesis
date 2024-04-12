@@ -1,34 +1,33 @@
-PLINK v1.90b6.25 64-bit (5 Mar 2022)
+PLINK v1.90b7.2 64-bit (11 Dec 2023)
 Options in effect:
-  --allow-extra-chr
-  --chr-set 94
   --extract SNPs.txt
   --file RISG.wild.uf
   --out RISG.wild.f
   --recode
 
-Hostname: DESKTOP-9O3IIFV
-Working directory: /home/angellcarrasquillo/ALC_Masters_Thesis/Filtering
-Start time: Fri Mar  1 13:23:06 2024
+Hostname: CrystalBall
+Working directory: /home/alcarr/ALC_Masters_Thesis/Filtering
+Start time: Fri Apr 12 16:58:53 2024
 
-Random number seed: 1709317386
-8108 MB RAM detected; reserving 4054 MB for main workspace.
+Random number seed: 1712955533
+7731 MB RAM detected; reserving 3865 MB for main workspace.
 Scanning .ped file...
 Possibly irregular .ped line.  Restarting scan, assuming multichar alleles.
 .ped scan complete (for binary autoconversion).
-Performing single-pass .bed write (65212 variants, 87 samples).
+Performing single-pass .bed write (47655 variants, 81 people).
 --file: RISG.wild.f-temporary.bed + RISG.wild.f-temporary.bim +
 RISG.wild.f-temporary.fam written.
-65212 variants loaded from .bim file.
-87 samples (0 males, 0 females, 87 ambiguous) loaded from .fam.
+47655 variants loaded from .bim file.
+81 people (0 males, 0 females, 81 ambiguous) loaded from .fam.
 Ambiguous sex IDs written to RISG.wild.f.nosex .
---extract: 37535 variants remaining.
+--extract: 47293 variants remaining.
+Warning: At least 122790 duplicate IDs in --extract file.
 Using 1 thread (no multithreaded calculations invoked).
-Before main variant filters, 87 founders and 0 nonfounders present.
+Before main variant filters, 81 founders and 0 nonfounders present.
 Calculating allele frequencies... done.
-Total genotyping rate is 0.996653.
-37535 variants and 87 samples pass filters and QC.
+Total genotyping rate is 0.988966.
+47293 variants and 81 people pass filters and QC.
 Note: No phenotypes present.
 --recode ped to RISG.wild.f.ped + RISG.wild.f.map ... done.
 
-End time: Fri Mar  1 13:23:07 2024
+End time: Fri Apr 12 16:58:54 2024
