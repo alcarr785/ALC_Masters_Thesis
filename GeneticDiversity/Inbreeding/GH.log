@@ -1,31 +1,29 @@
-PLINK v1.90b6.25 64-bit (5 Mar 2022)
+PLINK v1.90b7.2 64-bit (11 Dec 2023)
 Options in effect:
-  --allow-extra-chr
-  --chr-set 94
   --file GH.f
   --het
   --out GH
 
-Hostname: DESKTOP-9O3IIFV
-Working directory: /home/angellcarrasquillo/ALC_Masters_Thesis/GeneticDiversity/FIS
-Start time: Fri Mar  1 13:43:28 2024
+Hostname: CrystalBall
+Working directory: /home/alcarr/ALC_Masters_Thesis/GeneticDiversity/Inbreeding
+Start time: Fri Apr 12 17:38:42 2024
 
-Random number seed: 1709318608
-8108 MB RAM detected; reserving 4054 MB for main workspace.
+Random number seed: 1712957922
+7731 MB RAM detected; reserving 3865 MB for main workspace.
 Scanning .ped file...
 Possibly irregular .ped line.  Restarting scan, assuming multichar alleles.
 .ped scan complete (for binary autoconversion).
-Performing single-pass .bed write (32353 variants, 30 samples).
+Performing single-pass .bed write (47293 variants, 30 people).
 --file: GH-temporary.bed + GH-temporary.bim + GH-temporary.fam written.
-32353 variants loaded from .bim file.
-30 samples (0 males, 0 females, 30 ambiguous) loaded from .fam.
+47293 variants loaded from .bim file.
+30 people (0 males, 0 females, 30 ambiguous) loaded from .fam.
 Ambiguous sex IDs written to GH.nosex .
 Using 1 thread (no multithreaded calculations invoked).
 Before main variant filters, 30 founders and 0 nonfounders present.
 Calculating allele frequencies... done.
-Total genotyping rate is 0.994607.
-32353 variants and 30 samples pass filters and QC.
+Total genotyping rate is 0.98931.
+47293 variants and 30 people pass filters and QC.
 Note: No phenotypes present.
---het: 31446 variants scanned, report written to GH.het .
+--het: 46555 variants scanned, report written to GH.het .
 
-End time: Fri Mar  1 13:43:28 2024
+End time: Fri Apr 12 17:38:42 2024
