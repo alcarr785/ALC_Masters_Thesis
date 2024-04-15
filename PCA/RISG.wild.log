@@ -8,26 +8,26 @@ Options in effect:
 
 Hostname: CrystalBall
 Working directory: /home/alcarr/ALC_Masters_Thesis/PCA
-Start time: Fri Apr 12 17:09:39 2024
+Start time: Mon Apr 15 10:19:31 2024
 
-Random number seed: 1712956179
+Random number seed: 1713190771
 7731 MB RAM detected; reserving 3865 MB for main workspace.
 Scanning .ped file...
 Possibly irregular .ped line.  Restarting scan, assuming multichar alleles.
 .ped scan complete (for binary autoconversion).
-Performing single-pass .bed write (47293 variants, 81 samples).
+Performing single-pass .bed write (37073 variants, 81 samples).
 --file: RISG.wild-temporary.bed + RISG.wild-temporary.bim +
 RISG.wild-temporary.fam written.
-47293 variants loaded from .bim file.
+37073 variants loaded from .bim file.
 81 samples (0 males, 0 females, 81 ambiguous) loaded from .fam.
 Ambiguous sex IDs written to RISG.wild.nosex .
 Using up to 11 threads (change this with --threads).
 Before main variant filters, 81 founders and 0 nonfounders present.
 Calculating allele frequencies... done.
-Total genotyping rate is 0.988966.
-47293 variants and 81 samples pass filters and QC.
+Total genotyping rate is 0.988581.
+37073 variants and 81 samples pass filters and QC.
 Note: No phenotypes present.
 Relationship matrix calculation complete.
 --pca: Results saved to RISG.wild.eigenval and RISG.wild.eigenvec .
 
-End time: Fri Apr 12 17:09:40 2024
+End time: Mon Apr 15 10:19:31 2024
