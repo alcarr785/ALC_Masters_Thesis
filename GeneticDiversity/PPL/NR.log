@@ -1,27 +1,27 @@
 PLINK v1.90b7.2 64-bit (11 Dec 2023)
 Options in effect:
-  --file ../Inbreeding/NR.f
+  --file ../../Filtering/NR.f
   --freq
   --out NR
 
 Hostname: CrystalBall
 Working directory: /home/alcarr/ALC_Masters_Thesis/GeneticDiversity/PPL
-Start time: Fri Apr 12 17:43:11 2024
+Start time: Mon Apr 15 10:18:28 2024
 
-Random number seed: 1712958191
+Random number seed: 1713190708
 7731 MB RAM detected; reserving 3865 MB for main workspace.
 Scanning .ped file...
 Possibly irregular .ped line.  Restarting scan, assuming multichar alleles.
 .ped scan complete (for binary autoconversion).
-Performing single-pass .bed write (47293 variants, 10 people).
+Performing single-pass .bed write (37385 variants, 10 people).
 --file: NR-temporary.bed + NR-temporary.bim + NR-temporary.fam written.
-47293 variants loaded from .bim file.
+37385 variants loaded from .bim file.
 10 people (0 males, 0 females, 10 ambiguous) loaded from .fam.
 Ambiguous sex IDs written to NR.nosex .
 Using 1 thread (no multithreaded calculations invoked).
 Before main variant filters, 10 founders and 0 nonfounders present.
 Calculating allele frequencies... done.
-Total genotyping rate is 0.98789.
+Total genotyping rate is 0.987219.
 --freq: Allele frequencies (founders only) written to NR.frq .
 
-End time: Fri Apr 12 17:43:12 2024
+End time: Mon Apr 15 10:18:28 2024

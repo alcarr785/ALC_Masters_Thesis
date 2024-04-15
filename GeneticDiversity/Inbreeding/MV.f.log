@@ -7,25 +7,25 @@ Options in effect:
 
 Hostname: CrystalBall
 Working directory: /home/alcarr/ALC_Masters_Thesis/GeneticDiversity/Inbreeding
-Start time: Fri Apr 12 17:38:32 2024
+Start time: Mon Apr 15 10:16:44 2024
 
-Random number seed: 1712957912
+Random number seed: 1713190604
 7731 MB RAM detected; reserving 3865 MB for main workspace.
 Scanning .ped file...
 Possibly irregular .ped line.  Restarting scan, assuming multichar alleles.
 .ped scan complete (for binary autoconversion).
-Performing single-pass .bed write (47293 variants, 114 people).
+Performing single-pass .bed write (37073 variants, 114 people).
 --file: MV.f-temporary.bed + MV.f-temporary.bim + MV.f-temporary.fam written.
-47293 variants loaded from .bim file.
+37073 variants loaded from .bim file.
 114 people (0 males, 0 females, 114 ambiguous) loaded from .fam.
 Ambiguous sex IDs written to MV.f.nosex .
 --keep-fam: 19 people remaining.
 Using 1 thread (no multithreaded calculations invoked).
 Before main variant filters, 19 founders and 0 nonfounders present.
 Calculating allele frequencies... done.
-Total genotyping rate in remaining samples is 0.98922.
-47293 variants and 19 people pass filters and QC.
+Total genotyping rate in remaining samples is 0.988783.
+37073 variants and 19 people pass filters and QC.
 Note: No phenotypes present.
 --recode ped to MV.f.ped + MV.f.map ... done.
 
-End time: Fri Apr 12 17:38:32 2024
+End time: Mon Apr 15 10:16:44 2024

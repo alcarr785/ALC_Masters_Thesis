@@ -14,9 +14,9 @@ Options in effect:
 
 Hostname: CrystalBall
 Working directory: /home/alcarr/ALC_Masters_Thesis/Filtering
-Start time: Fri Apr 12 16:53:50 2024
+Start time: Mon Apr 15 10:13:08 2024
 
-Random number seed: 1712955230
+Random number seed: 1713190388
 7731 MB RAM detected; reserving 3865 MB for main workspace.
 Scanning .ped file...
 Possibly irregular .ped line.  Restarting scan, assuming multichar alleles.
@@ -27,19 +27,19 @@ RISG.passQC-temporary.fam written.
 65862 variants loaded from .bim file.
 129 samples (0 males, 0 females, 129 ambiguous) loaded from .fam.
 Ambiguous sex IDs written to RISG.passQC.nosex .
---extract: 57305 variants remaining.
+--extract: 43893 variants remaining.
 --remove: 120 samples remaining.
 6 samples removed due to missing genotype data (--mind).
 IDs written to RISG.passQC.irem .
 Using 1 thread (no multithreaded calculations invoked).
 Before main variant filters, 114 founders and 0 nonfounders present.
 Calculating allele frequencies... done.
-Total genotyping rate in remaining samples is 0.983942.
-4304 variants removed due to missing genotype data (--geno).
-5346 variants removed due to minor allele threshold(s)
+Total genotyping rate in remaining samples is 0.983349.
+3441 variants removed due to missing genotype data (--geno).
+3067 variants removed due to minor allele threshold(s)
 (--maf/--max-maf/--mac/--max-mac).
-47655 variants and 114 samples pass filters and QC.
+37385 variants and 114 samples pass filters and QC.
 Note: No phenotypes present.
 --recode ped to RISG.passQC.ped + RISG.passQC.map ... done.
 
-End time: Fri Apr 12 16:53:51 2024
+End time: Mon Apr 15 10:13:08 2024

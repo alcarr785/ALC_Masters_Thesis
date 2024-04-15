@@ -9,26 +9,26 @@ Options in effect:
 
 Hostname: CrystalBall
 Working directory: /home/alcarr/ALC_Masters_Thesis/Filtering
-Start time: Fri Apr 12 16:54:07 2024
+Start time: Mon Apr 15 10:13:26 2024
 
-Random number seed: 1712955247
+Random number seed: 1713190406
 7731 MB RAM detected; reserving 3865 MB for main workspace.
 Scanning .ped file...
 Possibly irregular .ped line.  Restarting scan, assuming multichar alleles.
 .ped scan complete (for binary autoconversion).
-Performing single-pass .bed write (47655 variants, 114 samples).
+Performing single-pass .bed write (37385 variants, 114 samples).
 --file: NEH.uf-temporary.bed + NEH.uf-temporary.bim + NEH.uf-temporary.fam
 written.
-47655 variants loaded from .bim file.
+37385 variants loaded from .bim file.
 114 samples (0 males, 0 females, 114 ambiguous) loaded from .fam.
 Ambiguous sex IDs written to NEH.uf.nosex .
 --keep-fam: 20 samples remaining.
 Using 1 thread (no multithreaded calculations invoked).
 Before main variant filters, 20 founders and 0 nonfounders present.
 Calculating allele frequencies... done.
-Total genotyping rate in remaining samples is 0.990728.
-47655 variants and 20 samples pass filters and QC.
+Total genotyping rate in remaining samples is 0.990681.
+37385 variants and 20 samples pass filters and QC.
 Note: No phenotypes present.
 --recode ped to NEH.uf.ped + NEH.uf.map ... done.
 
-End time: Fri Apr 12 16:54:07 2024
+End time: Mon Apr 15 10:13:26 2024

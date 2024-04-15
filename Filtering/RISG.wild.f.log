@@ -7,27 +7,26 @@ Options in effect:
 
 Hostname: CrystalBall
 Working directory: /home/alcarr/ALC_Masters_Thesis/Filtering
-Start time: Fri Apr 12 16:58:53 2024
+Start time: Mon Apr 15 10:14:43 2024
 
-Random number seed: 1712955533
+Random number seed: 1713190483
 7731 MB RAM detected; reserving 3865 MB for main workspace.
 Scanning .ped file...
 Possibly irregular .ped line.  Restarting scan, assuming multichar alleles.
 .ped scan complete (for binary autoconversion).
-Performing single-pass .bed write (47655 variants, 81 people).
+Performing single-pass .bed write (37385 variants, 81 people).
 --file: RISG.wild.f-temporary.bed + RISG.wild.f-temporary.bim +
 RISG.wild.f-temporary.fam written.
-47655 variants loaded from .bim file.
+37385 variants loaded from .bim file.
 81 people (0 males, 0 females, 81 ambiguous) loaded from .fam.
 Ambiguous sex IDs written to RISG.wild.f.nosex .
---extract: 47293 variants remaining.
-Warning: At least 122790 duplicate IDs in --extract file.
+--extract: 37073 variants remaining.
 Using 1 thread (no multithreaded calculations invoked).
 Before main variant filters, 81 founders and 0 nonfounders present.
 Calculating allele frequencies... done.
-Total genotyping rate is 0.988966.
-47293 variants and 81 people pass filters and QC.
+Total genotyping rate is 0.988581.
+37073 variants and 81 people pass filters and QC.
 Note: No phenotypes present.
 --recode ped to RISG.wild.f.ped + RISG.wild.f.map ... done.
 
-End time: Fri Apr 12 16:58:54 2024
+End time: Mon Apr 15 10:14:44 2024
