@@ -1,0 +1,32 @@
+PLINK v1.90b7.2 64-bit (11 Dec 2023)
+Options in effect:
+  --extract plink.prune.in
+  --file RISG.passQC
+  --out RISG.indep
+  --recode
+
+Hostname: CrystalBall
+Working directory: /home/alcarr/ALC_Masters_Thesis/Filtering
+Start time: Thu Apr 18 10:24:13 2024
+
+Random number seed: 1713450253
+7731 MB RAM detected; reserving 3865 MB for main workspace.
+Scanning .ped file...
+Possibly irregular .ped line.  Restarting scan, assuming multichar alleles.
+.ped scan complete (for binary autoconversion).
+Performing single-pass .bed write (53387 variants, 114 people).
+--file: RISG.indep-temporary.bed + RISG.indep-temporary.bim +
+RISG.indep-temporary.fam written.
+53387 variants loaded from .bim file.
+114 people (0 males, 0 females, 114 ambiguous) loaded from .fam.
+Ambiguous sex IDs written to RISG.indep.nosex .
+--extract: 37284 variants remaining.
+Using 1 thread (no multithreaded calculations invoked).
+Before main variant filters, 114 founders and 0 nonfounders present.
+Calculating allele frequencies... done.
+Total genotyping rate is 0.988993.
+37284 variants and 114 people pass filters and QC.
+Note: No phenotypes present.
+--recode ped to RISG.indep.ped + RISG.indep.map ... done.
+
+End time: Thu Apr 18 10:24:13 2024

@@ -6,22 +6,22 @@ Options in effect:
 
 Hostname: CrystalBall
 Working directory: /home/alcarr/ALC_Masters_Thesis/GeneticDiversity/PPL
-Start time: Mon Apr 15 10:18:28 2024
+Start time: Thu Apr 18 11:05:08 2024
 
-Random number seed: 1713190708
+Random number seed: 1713452708
 7731 MB RAM detected; reserving 3865 MB for main workspace.
 Scanning .ped file...
 Possibly irregular .ped line.  Restarting scan, assuming multichar alleles.
 .ped scan complete (for binary autoconversion).
-Performing single-pass .bed write (37123 variants, 30 people).
+Performing single-pass .bed write (37019 variants, 30 people).
 --file: GH-temporary.bed + GH-temporary.bim + GH-temporary.fam written.
-37123 variants loaded from .bim file.
+37019 variants loaded from .bim file.
 30 people (0 males, 0 females, 30 ambiguous) loaded from .fam.
 Ambiguous sex IDs written to GH.nosex .
 Using 1 thread (no multithreaded calculations invoked).
 Before main variant filters, 30 founders and 0 nonfounders present.
 Calculating allele frequencies... done.
-Total genotyping rate is 0.988933.
+Total genotyping rate is 0.988932.
 --freq: Allele frequencies (founders only) written to GH.frq .
 
-End time: Mon Apr 15 10:18:28 2024
+End time: Thu Apr 18 11:05:08 2024
