@@ -2,42 +2,41 @@ PLINK v1.90b7.2 64-bit (11 Dec 2023)
 Options in effect:
   --allow-extra-chr
   --chr-set 94
-  --file RISG_uf
+  --file RISG.passQC
   --indep-pairwise 500 5 0.2
 
 Hostname: CrystalBall
 Working directory: /home/alcarr/ALC_Masters_Thesis/Filtering
-Start time: Mon Apr 15 10:12:28 2024
+Start time: Thu Apr 18 10:22:37 2024
 
-Random number seed: 1713190348
+Random number seed: 1713450157
 7731 MB RAM detected; reserving 3865 MB for main workspace.
 Scanning .ped file...
 Possibly irregular .ped line.  Restarting scan, assuming multichar alleles.
 .ped scan complete (for binary autoconversion).
-Performing single-pass .bed write (65893 variants, 129 samples).
+Performing single-pass .bed write (53387 variants, 114 samples).
 --file: plink-temporary.bed + plink-temporary.bim + plink-temporary.fam
 written.
-65893 variants loaded from .bim file.
-129 samples (0 males, 0 females, 129 ambiguous) loaded from .fam.
+53387 variants loaded from .bim file.
+114 samples (0 males, 0 females, 114 ambiguous) loaded from .fam.
 Ambiguous sex IDs written to plink.nosex .
 Using 1 thread (no multithreaded calculations invoked).
-Before main variant filters, 129 founders and 0 nonfounders present.
+Before main variant filters, 114 founders and 0 nonfounders present.
 Calculating allele frequencies... done.
-Total genotyping rate is 0.966742.
-65893 variants and 129 samples pass filters and QC.
+Total genotyping rate is 0.989539.
+53387 variants and 114 samples pass filters and QC.
 Note: No phenotypes present.
-Pruned 2095 variants from chromosome 1, leaving 4021.
-Pruned 1952 variants from chromosome 2, leaving 4872.
-Pruned 2680 variants from chromosome 3, leaving 5067.
-Pruned 1788 variants from chromosome 4, leaving 4335.
-Pruned 3930 variants from chromosome 5, leaving 6200.
-Pruned 2647 variants from chromosome 6, leaving 2481.
-Pruned 1455 variants from chromosome 7, leaving 4121.
-Pruned 1866 variants from chromosome 8, leaving 4847.
-Pruned 2717 variants from chromosome 9, leaving 6090.
-Pruned 839 variants from chromosome 10, leaving 1859.
-Pruned 29 variants from chromosome 94, leaving 2.
-Pruning complete.  21998 of 65893 variants removed.
+Pruned 1529 variants from chromosome 1, leaving 3404.
+Pruned 1185 variants from chromosome 2, leaving 4147.
+Pruned 1570 variants from chromosome 3, leaving 4254.
+Pruned 1122 variants from chromosome 4, leaving 3683.
+Pruned 2858 variants from chromosome 5, leaving 5214.
+Pruned 2301 variants from chromosome 6, leaving 2111.
+Pruned 1236 variants from chromosome 7, leaving 3617.
+Pruned 1494 variants from chromosome 8, leaving 4155.
+Pruned 2181 variants from chromosome 9, leaving 5196.
+Pruned 627 variants from chromosome 10, leaving 1503.
+Pruning complete.  16103 of 53387 variants removed.
 Marker lists written to plink.prune.in and plink.prune.out .
 
-End time: Mon Apr 15 10:12:30 2024
+End time: Thu Apr 18 10:22:38 2024
