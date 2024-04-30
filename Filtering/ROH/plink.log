@@ -1,0 +1,17 @@
+PLINK v1.90b7.2 64-bit (11 Dec 2023)
+Options in effect:
+  --file RISG.ROH
+  --homozyg
+  --homozyg-gap 500
+  --homozyg-window-snp 100
+  --homozyg-window-threshold 0.05
+  --recode.out RISG.ROH
+
+Hostname: CrystalBall
+Working directory: /home/alcarr/ALC_Masters_Thesis/Filtering/ROH
+Start time: Tue Apr 30 10:51:00 2024
+
+Error: Unrecognized flag ('--recode.out').
+For more information, try "plink --help <flag name>" or "plink --help | more".
+
+End time: Tue Apr 30 10:51:00 2024
