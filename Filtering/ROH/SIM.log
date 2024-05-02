@@ -1,0 +1,34 @@
+PLINK v1.90b7.2 64-bit (11 Dec 2023)
+Options in effect:
+  --file SIMHOM
+  --homozyg
+  --homozyg-density 50
+  --homozyg-gap 1000
+  --homozyg-window-snp 100
+  --homozyg-window-threshold 0.05
+  --out SIM
+  --recode
+
+Hostname: CrystalBall
+Working directory: /home/alcarr/ALC_Masters_Thesis/Filtering/ROH
+Start time: Thu May  2 10:09:53 2024
+
+Random number seed: 1714658993
+7731 MB RAM detected; reserving 3865 MB for main workspace.
+Scanning .ped file... done.
+Performing single-pass .bed write (61224 variants, 1 person).
+--file: SIM-temporary.bed + SIM-temporary.bim + SIM-temporary.fam written.
+61224 variants loaded from .bim file.
+1 person (0 males, 0 females, 1 ambiguous) loaded from .fam.
+Ambiguous sex ID written to SIM.nosex .
+Using 1 thread (no multithreaded calculations invoked).
+Before main variant filters, 1 founder and 0 nonfounders present.
+Calculating allele frequencies... done.
+Total genotyping rate is exactly 1.
+61224 variants and 1 person pass filters and QC.
+Note: No phenotypes present.
+--recode ped to SIM.ped + SIM.map ... done.
+--homozyg: Scan complete, found 13 ROH.
+Results saved to SIM.hom + SIM.hom.indiv + SIM.hom.summary .
+
+End time: Thu May  2 10:09:53 2024
