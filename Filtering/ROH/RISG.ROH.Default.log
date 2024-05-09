@@ -1,0 +1,38 @@
+PLINK v1.90b7.2 64-bit (11 Dec 2023)
+Options in effect:
+  --file RISG.ROH
+  --homozyg
+  --homozyg-density 50
+  --homozyg-gap 1000
+  --homozyg-window-snp 100
+  --homozyg-window-threshold 0.05
+  --out RISG.ROH.Default
+  --recode
+
+Hostname: CrystalBall
+Working directory: /home/alcarr/ALC_Masters_Thesis/Filtering/ROH
+Start time: Thu May  9 13:54:06 2024
+
+Random number seed: 1715277246
+7731 MB RAM detected; reserving 3865 MB for main workspace.
+Scanning .ped file...
+Possibly irregular .ped line.  Restarting scan, assuming multichar alleles.
+.ped scan complete (for binary autoconversion).
+Performing single-pass .bed write (61224 variants, 114 people).
+--file: RISG.ROH.Default-temporary.bed + RISG.ROH.Default-temporary.bim +
+RISG.ROH.Default-temporary.fam written.
+61224 variants loaded from .bim file.
+114 people (0 males, 0 females, 114 ambiguous) loaded from .fam.
+Ambiguous sex IDs written to RISG.ROH.Default.nosex .
+Using 1 thread (no multithreaded calculations invoked).
+Before main variant filters, 114 founders and 0 nonfounders present.
+Calculating allele frequencies... done.
+Total genotyping rate is 0.989851.
+61224 variants and 114 people pass filters and QC.
+Note: No phenotypes present.
+--recode ped to RISG.ROH.Default.ped + RISG.ROH.Default.map ... done.
+--homozyg: Scan complete, found 435 ROH.
+Results saved to RISG.ROH.Default.hom + RISG.ROH.Default.hom.indiv +
+RISG.ROH.Default.hom.summary .
+
+End time: Thu May  9 13:54:06 2024
