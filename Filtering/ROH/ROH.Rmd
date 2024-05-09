@@ -1,0 +1,32 @@
+Runs of Homozygoisty
+
+```{bash}
+plink --file RISG.ROH --homozyg --homozyg-gap 1000 --homozyg-density 50 --homozyg-window-snp 100 --homozyg-window-threshold 0.05 --recode --out RISG.ROH
+```
+
+```{r}
+Coverage <- read.csv("SIM.hom", sep = "") %>%
+  summarize (Coverage = sum(KB), SNPs = sum(NSNP)) %>%
+  .[1]
+ROH <- read.csv("RISG.ROH.hom", sep = "") %>%
+  mutate(FID = recode(FID, FI = 'CL1', NEH = 'CL2')) %>%
+  mutate(Type = ifelse(FID == "CL1" | FID == "CL2", "Commercial", "Wild")) %>%
+  group_by(Type,FID,IID) %>%
+  summarize(LROH = sum(KB)) %>%
+  mutate(FROH = LROH/Coverage$Coverage)
+```
+
+```{r}
+ROH_aov <-aov(ROH$FROH ~ ROH$FID)
+TukeyHSD(ROH_aov)
+```
+
+```{r}
+ROH_plot <- ggplot(ROH, aes(x=FID, y=FROH, fill=Type))+
+  geom_boxplot()+
+  xlab("Population")+
+  ylab("Fraction of Genome in ROH")+
+  ggtitle("Runs of Homozygoisty")
+plot(ROH_plot)
+```
+

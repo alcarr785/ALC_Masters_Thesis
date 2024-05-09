@@ -60,6 +60,7 @@ WIC_survmod <- survreg(Surv(Age, Status) ~ Population, data = WIC_Surv, dist = "
 summary(SurvPopxSite2023)
 anova(SurvPopandSite2023, SurvPopxSite2023)
 ```
+
 ```{r}
 Site_Avg_Surv <- rbind(read.csv("RWU_Survival_Total.csv"), read.csv("WIC_Survival_Total.csv"), read.csv("NIN_Survival_Total.csv")) %>%
   group_by(Population, Site) %>%
@@ -94,5 +95,95 @@ WIC_Surv_Plot <- ggplot(WIC_Surv, aes(x=Population, y=Percent.Survival*100, fill
   ylab("Percent Survival (%)")+
   ylim(0,100)
 plot_grid(NIN_Surv_Plot, WIC_Surv_Plot, labels =c("A","B"), nrow = 1, ncol =2)
+```
+
+```{r}
+survival <- read.csv("RWU.csv") %>%
+  filter(Pit.Tag.End.Num != "no tag",
+         Pit.Tag.End.Num != "NA", 
+         !is.na(Pit.Tag.End.Num),
+         Pit.Tag.End.Num != 29822,
+         !is.na(Lineage)) %>%
+  subset(!(Status == "Missing " | Status == "missing" | Status == "Missing"))%>%
+#Renaming lineages
+  mutate(Lineage = recode(Lineage, 
+                          "Mv"="MV",
+                          "FI" = "CL1",
+                          "NEH" = "CL2")) %>%
+#Assigning ages to oysters at collection time
+  mutate(Months = recode(Date, 
+         "19-Jul-21"=1,
+         "28-Jul-21"=1,
+         "26-Aug-21"=2,
+         "25-Oct-21"=4,
+         "24-May-22"=11,
+         "19-Oct-22"=16
+         )) %>% 
+#Updating status for oysters
+  mutate(Status = recode(Status,
+                         "Alive"=1,
+                         "alive"=1,
+                         "alive, no pic"=1,
+                         "dead"=10,
+                         "Dead"=10)) %>%
+#Keeping only relevant columns
+  select(Lineage, Pit.Tag.End.Num, Status, Months,Bag.Number) %>%
+  group_by(Lineage, Pit.Tag.End.Num, Bag.Number) %>%
+#Keeping maximum age of oysters and status
+  summarize(Age = max(Months), Survived = sum(Status)) %>%
+#Changing status of of oysters to either 0 or 1 based on if it survived
+  mutate(Survived = ifelse(Survived >= 10, 0, 1)) %>%
+#Keeping relevant columns
+  select(Lineage, Pit.Tag.End.Num, Survived, Age,Bag.Number)
+```
+
+```{r}
+Mort <- survival %>% 
+  subset(!(Lineage == "NR" & Bag.Number != 2)) %>%
+  subset(!(Lineage == "CL2" & Bag.Number == 3))%>%
+  subset(!(Lineage == "GH" & Bag.Number != 3))%>%
+  group_by(Lineage,Age,Bag.Number) %>%
+  mutate(Age = recode(Age, 
+         "1"="One",
+        "2"="Two",
+         "4"="Four",
+         "11"="Eleven",
+         "16"="Sixteen"
+         ))%>%
+  summarize(N = sum(Survived))%>%
+  pivot_wider(names_from = Age, values_from = N)%>%
+  mutate(Final = 55-Sixteen)%>%
+  replace(is.na(.), 0)%>%
+  select(Lineage,Bag.Number, One, Two, Four, Eleven, Final)
+Cum_mort_percent <- Cum_mort %>%
+  mutate(One = (One)/55,
+      Two = ((One+Two)/55),
+      Four = ((Two+Four)/55),
+      Eleven = (Four+Eleven)/55,
+      Final = Final/55)
+```
+```{r}
+Mort_plot_data <- Cum_mort_percent %>%
+  pivot_longer(c(One, Two, Four, Eleven, Final), names_to = "Date") %>%
+    mutate(Date = recode(Date, 
+         "One"=as.Date("2021-07-01"),
+        "Two"=as.Date("2021-08-01"),
+         "Four"=as.Date("2021-10-01"),
+         "Eleven"=as.Date("2022-05-01"),
+         "Final"=as.Date("2022-10-01")
+         )) %>%
+  rename(Population = Lineage)%>%
+  group_by(Population,Date)
+```
+
+```{r}
+Cum_Mort_Plt <- ggplot(data=Mort_plot_data, aes(x=Date, y=value, col =Population))+
+  stat_summary(fun.y = mean, geom = "point")+
+  stat_summary(fun.y = mean, geom = "line")+
+  stat_summary(fun.data = "mean_cl_boot", geom = "errorbar")+
+  scale_x_date(date_labels = "%b %Y", date_breaks = "2 months")+
+  ylab("Cumulative Mortality")+
+  ggtitle("Cumulative Mortality")
+  ylim(c(0.0, 1))
 ```
 

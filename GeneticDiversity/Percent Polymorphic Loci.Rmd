@@ -9,22 +9,22 @@ To get the percent of polymorphic loci in each population, we take the number of
 ```{r}
 library(tidyverse)
 CT_ppl <- read.table("PPL/CT.frq", header = TRUE) %>%
-  summarize(Population = "CT", Poly = sum(MAF != 0), Fixed = sum(MAF == 0), Po = sum(MAF != 0)/32353)%>%
+  summarize(Population = "CT", Poly = sum(MAF != 0), Fixed = sum(MAF == 0), Po = sum(MAF != 0)/36968)%>%
   mutate(Type="Wild")
 NR_ppl <- read.table("PPL/NR.frq", header = TRUE) %>%
-  summarize(Population = "NR", Poly = sum(MAF != 0), Fixed = sum(MAF == 0), Po = sum(MAF != 0)/32353)%>%
+  summarize(Population = "NR", Poly = sum(MAF != 0), Fixed = sum(MAF == 0), Po = sum(MAF != 0)/36968)%>%
   mutate(Type="Wild")
 CL2_ppl <- read.table("PPL/NEH.frq", header = TRUE) %>%
-  summarize(Population = "CL2", Poly = sum(MAF != 0), Fixed = sum(MAF == 0), Po = sum(MAF != 0)/32353)%>%
-  mutate(Type="Wild")
+  summarize(Population = "CL2", Poly = sum(MAF != 0), Fixed = sum(MAF == 0), Po = sum(MAF != 0)/36968)%>%
+  mutate(Type="Commercial")
 CL1_ppl <- read.table("PPL/FI.frq", header = TRUE) %>%
-  summarize(Population = "CL1", Poly = sum(MAF != 0), Fixed = sum(MAF == 0), Po = sum(MAF != 0)/32353)%>%
-  mutate(Type="Wild")
+  summarize(Population = "CL1", Poly = sum(MAF != 0), Fixed = sum(MAF == 0), Po = sum(MAF != 0)/36968)%>%
+  mutate(Type="Commercial")
 MV_ppl <- read.table("PPL/MV.frq", header = TRUE) %>%
-  summarize(Population = "MV", Poly = sum(MAF != 0), Fixed = sum(MAF == 0), Po = sum(MAF != 0)/32353)%>%
+  summarize(Population = "MV", Poly = sum(MAF != 0), Fixed = sum(MAF == 0), Po = sum(MAF != 0)/36968)%>%
   mutate(Type="Wild")
 GH_ppl <- read.table("PPL/GH.frq", header = TRUE) %>%
-  summarize(Population = "GH", Poly = sum(MAF != 0), Fixed = sum(MAF == 0), Po = sum(MAF != 0)/32353)%>%
+  summarize(Population = "GH", Poly = sum(MAF != 0), Fixed = sum(MAF == 0), Po = sum(MAF != 0)/36968)%>%
   mutate(Type="Wild")
 All_ppl <- rbind(GH_ppl, NR_ppl, CT_ppl, CL1_ppl, CL2_ppl, MV_ppl)
 ```
