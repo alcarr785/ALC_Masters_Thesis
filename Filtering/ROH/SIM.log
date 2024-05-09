@@ -4,6 +4,7 @@ Options in effect:
   --homozyg
   --homozyg-density 50
   --homozyg-gap 1000
+  --homozyg-snp 50
   --homozyg-window-snp 100
   --homozyg-window-threshold 0.05
   --out SIM
@@ -11,9 +12,9 @@ Options in effect:
 
 Hostname: CrystalBall
 Working directory: /home/alcarr/ALC_Masters_Thesis/Filtering/ROH
-Start time: Thu May  2 10:09:53 2024
+Start time: Thu May  9 13:15:22 2024
 
-Random number seed: 1714658993
+Random number seed: 1715274922
 7731 MB RAM detected; reserving 3865 MB for main workspace.
 Scanning .ped file... done.
 Performing single-pass .bed write (61224 variants, 1 person).
@@ -31,4 +32,4 @@ Note: No phenotypes present.
 --homozyg: Scan complete, found 13 ROH.
 Results saved to SIM.hom + SIM.hom.indiv + SIM.hom.summary .
 
-End time: Thu May  2 10:09:53 2024
+End time: Thu May  9 13:15:22 2024

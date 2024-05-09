@@ -4,16 +4,17 @@ Options in effect:
   --homozyg
   --homozyg-density 50
   --homozyg-gap 1000
-  --homozyg-window-snp 50
+  --homozyg-snp 50
+  --homozyg-window-snp 100
   --homozyg-window-threshold 0.05
   --out RISG.ROH
   --recode
 
 Hostname: CrystalBall
 Working directory: /home/alcarr/ALC_Masters_Thesis/Filtering/ROH
-Start time: Tue Apr 30 14:33:13 2024
+Start time: Thu May  9 13:13:19 2024
 
-Random number seed: 1714501993
+Random number seed: 1715274799
 7731 MB RAM detected; reserving 3865 MB for main workspace.
 Scanning .ped file...
 Possibly irregular .ped line.  Restarting scan, assuming multichar alleles.
@@ -31,7 +32,7 @@ Total genotyping rate is 0.989851.
 61224 variants and 114 people pass filters and QC.
 Note: No phenotypes present.
 --recode ped to RISG.ROH.ped + RISG.ROH.map ... done.
---homozyg: Scan complete, found 549 ROH.
+--homozyg: Scan complete, found 447 ROH.
 Results saved to RISG.ROH.hom + RISG.ROH.hom.indiv + RISG.ROH.hom.summary .
 
-End time: Tue Apr 30 14:33:14 2024
+End time: Thu May  9 13:13:19 2024
