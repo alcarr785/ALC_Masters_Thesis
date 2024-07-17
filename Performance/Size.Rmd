@@ -5,6 +5,7 @@ Importing Packages
 library(tidyverse)
 library(cowplot)
 library(dunn.test)
+library(ggpattern)
 ```
 
 Reading in Data
@@ -98,25 +99,26 @@ WIC_plot <- ggplot(WIC_Size, aes(x=Line, y=Length, fill = Type))+
   ylim(0,100)
 
 Year1_plot <- ggplot(Year1, aes(x=Line, y=Length, fill = Type))+
-  geom_boxplot()+
-  labs(x = "Population", y="Size (mm)")+
-  ggtitle("Oyster Size (RWU)")+
+  geom_boxplot_pattern(aes(fill = Type, pattern_alpha = Type), lwd = 1)+
+  scale_pattern_alpha_manual(values = c(1, 0))+
+  scale_fill_grey()+
+  theme_bw()+
+  theme(
+    axis.ticks.length=unit(-0.2, "cm"),
+    plot.background = element_blank(),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    panel.border = element_blank(),
+    legend.position = "none",
+    text = element_text(face = "bold"),
+    axis.line.x = element_line(size = 1, linetype = "solid", colour = "black"),
+    axis.line.y = element_line(size = 1, linetype = "solid", colour = "black"))+
+  labs(x = "Population", y="Shell Height (mm)")+
+  ggtitle("Oyster Size")+
   ylim(0,100)
-plot_grid(NIN_plot, WIC_plot, labels = c("A", "B"), nrow = 1, ncol =2)
+plot(Year1_plot)
+#plot_grid(NIN_plot, WIC_plot, labels = c("A", "B"), nrow = 1, ncol =2)
 ```
 
-Plotting Genotype by Environment Interactions
-```{r}
-Site_Avg_Size <- All_data %>% 
-  group_by(Site, Population) %>%
-  summarize(Avg = mean(Length)) %>%
-  group_by(Site) %>%
-  mutate(Site_Size = mean(Avg)) %>%
-  mutate(Type = ifelse((Population == "GH" | Population =="MV"), "Wild", "Commercial"))
-ggplot(Site_Avg_Size, aes(x=Site_Size, y=Avg, shape = Population, color = Type))+
-  geom_point()+
-  geom_smooth(method=lm, se = FALSE)
-
-```
 
 

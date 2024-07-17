@@ -1,7 +1,12 @@
 Runs of Homozygoisty
+```{r}
+library(tidyverse)
+library(ggpattern)
+library(cowplot)
+```
 
 ```{bash}
-plink --file RISG.ROH --homozyg --homozyg-gap 1000 --homozyg-density 50 --homozyg-window-snp 100 --homozyg-window-threshold 0.05 --recode --out RISG.ROH
+plink --file RISG.ROH --homozyg --homozyg-snp 50 --homozyg-gap 1000 --homozyg-density 50 --homozyg-window-snp 100 --homozyg-window-threshold 0.05 --recode --out RISG.ROH
 ```
 
 ```{r}
@@ -12,8 +17,13 @@ ROH <- read.csv("RISG.ROH.hom", sep = "") %>%
   mutate(FID = recode(FID, FI = 'CL1', NEH = 'CL2')) %>%
   mutate(Type = ifelse(FID == "CL1" | FID == "CL2", "Commercial", "Wild")) %>%
   group_by(Type,FID,IID) %>%
-  summarize(LROH = sum(KB)) %>%
+  summarize(LROH = sum(KB), Sum = n(), Avg_L = mean(KB)) %>%
   mutate(FROH = LROH/Coverage$Coverage)
+ROH_wild <- ROH %>%
+  filter(Type != "Commercial")
+ROH_sum <- ROH %>%
+  group_by(Type,FID) %>%
+  summarize(FROH = mean(FROH), CumLROH=mean(LROH), AvgLROH = mean(Avg_L), SumLROH=mean(Sum))
 ```
 
 ```{r}
@@ -22,11 +32,80 @@ TukeyHSD(ROH_aov)
 ```
 
 ```{r}
+ROH_violin <- ggplot(ROH, aes(x=LROH, y=FID, fill=Type))+
+  theme_bw()+
+  geom_violin_pattern(aes(fill = Type, pattern_alpha = Type), size =1)+
+  scale_pattern_alpha_manual(values = c(1, 0))+
+  scale_fill_grey()+
+  theme(
+    axis.ticks.length=unit(-0.2, "cm"),
+    plot.background = element_blank(),
+    panel.grid.major = element_blank(),
+    legend.position = c(0.85,0.9),
+    panel.border = element_blank(),
+    panel.grid.minor = element_blank(),text = element_text(face = "bold"),
+    axis.line.x = element_line(size = 1, linetype = "solid", colour = "black"),
+    axis.line.y = element_line(size = 1, linetype = "solid", colour = "black"))+
+    stat_summary(fun='mean', geom = 'point')+
+  ggtitle("Cumulative Lengths of ROH")+
+  labs(x="Length of ROH (Kb)", y= "Population")
+plot(ROH_violin)
+```
+
+```{r}
+ggplot(RISG.ROH, aes(x=KB))+
+  geom_histogram(fill = "white", colour = "black")+
+  facet_grid(FID ~ .)
+```
+
+
+```{r}
 ROH_plot <- ggplot(ROH, aes(x=FID, y=FROH, fill=Type))+
-  geom_boxplot()+
+  geom_boxplot_pattern(aes(fill = Type, pattern_alpha = Type), lwd = 1)+
+  scale_pattern_alpha_manual(values = c(1, 0))+
+  theme_bw()+
+scale_fill_grey()+
+  theme(
+    axis.ticks.length=unit(-0.2, "cm"),
+    plot.background = element_blank(),
+    panel.grid.major = element_blank(),
+    legend.position = c(0.85,0.9),
+    panel.border = element_blank(),
+    panel.grid.minor = element_blank(),text = element_text(face = "bold"),
+    axis.line.x = element_line(size = 1, linetype = "solid", colour = "black"),
+    axis.line.y = element_line(size = 1, linetype = "solid", colour = "black"))+
   xlab("Population")+
-  ylab("Fraction of Genome in ROH")+
-  ggtitle("Runs of Homozygoisty")
+  ylab("Inbreeding Coefficient")+
+  ggtitle("Inbreeding Based on ROH (FROH)")
 plot(ROH_plot)
+```
+
+```{r}
+ROH_Graph <- ggplot(ROH, aes(x=LROH, y=Sum, color = FID, shape = FID))+
+  scale_color_grey()+
+  labs(color = "Population", shape = "Population")+
+  geom_point(size=2.5)+
+  geom_smooth(method="lm", se = FALSE, size = 1.5)+
+  theme_bw()+
+  theme(
+    axis.ticks.length=unit(-0.2, "cm"),
+    plot.background = element_blank(),
+    panel.grid.major = element_blank(),
+    legend.position = c(0.9,0.35),
+    panel.border = element_blank(),
+    panel.grid.minor = element_blank(),text = element_text(face = "bold"),
+    axis.line.x = element_line(size = 1, linetype = "solid", colour = "black"),
+    axis.line.y = element_line(size = 1, linetype = "solid", colour = "black"))+
+    stat_summary(fun='mean', geom = 'point')+
+  ggtitle("Sum and Number of ROH")+
+  labs(x="Length of ROH (Kb)", y= "Number of ROH")
+plot(ROH_Graph)
+#ROH_WildGraph <- ggplot(ROH_wild, aes(x=LROH, y=Sum, color = FID))+
+#  geom_point()
+#plot(ROH_WildGraph)
+```
+
+```{r}
+plot_grid(ROH_violin, ROH_Graph, labels = c("A","B"))
 ```
 

@@ -32,7 +32,22 @@ All_ppl <- rbind(GH_ppl, NR_ppl, CT_ppl, CL1_ppl, CL2_ppl, MV_ppl)
 Plotting percent of polymorphic loci
 ```{r}
 Po_Plot <- ggplot(All_ppl, aes(x=Population, y=Po, fill = Type))+
-  geom_bar(stat="identity")+
-  ggtitle("Proportion of Polymorphic Loci")
+ # geom_bar(stat="identity")+
+  ggtitle("Proportion of Polymorphic Loci")+
+  geom_bar_pattern(stat="identity", aes(fill = Type, pattern_alpha = Type), color = "black", lwd=1)+
+  scale_pattern_alpha_manual(values = c(1, 0))+
+  theme_bw()+
+  scale_fill_grey()+
+  theme(
+    axis.ticks.length=unit(-0.2, "cm"),
+    plot.background = element_blank(),
+    panel.grid.major = element_blank(),
+    legend.position = "none",
+    panel.border = element_blank(),
+    panel.grid.minor = element_blank(),text = element_text(face = "bold"),
+    axis.line.x = element_line(size = 1, linetype = "solid", colour = "black"),
+    axis.line.y = element_line(size = 1, linetype = "solid", colour = "black"))
+plot(Po_Plot)
+plot_grid(Po_Plot, Het, labels = c("A","B"))
 ```
 
